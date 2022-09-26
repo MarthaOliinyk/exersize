@@ -1,0 +1,81 @@
+.workout__container{
+    padding: 90px 35px 90px 35px;
+    padding-right: 90px;
+    padding-left: 90px;
+}
+.workout__title{
+    margin-bottom: 70px;
+    text-align: center;
+    font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 70px;
+line-height: 99px;
+/* identical to box height, or 115% */
+
+
+color: #FBFBFF;
+}
+.workout__wrapper{
+    background-image: url(../images/workout__background.jpg);
+   width: 100%;
+}
+.workout__list{
+    display: flex;
+
+}
+.workout__item{
+    align-items: center;
+    justify-content: center;
+    display: block;
+  margin: 0 auto;
+    width: 270px;
+    margin-bottom: 50px;
+    &:not(:last-child)
+    {
+        margin-right: 50px;
+    }
+    
+
+}
+.workout__img{
+    width: 400px;
+    width: 270px;
+}
+.workout__content{
+    padding: 30px;
+background-color: #FBFBFF;
+}
+.workout__time{
+    margin-bottom: 14px;
+    font-family: 'Red Hat Display';
+font-style: normal;
+font-weight: 400;
+font-size: 10px;
+line-height: 22px;
+/* identical to box height, or 160% */
+
+letter-spacing: 1px;
+text-transform: uppercase;
+
+
+}
+.workout__text{
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 28px;
+    /* identical to box height, or 115% */
+    
+    letter-spacing: 0.5px;
+    
+}
+.workout__button{
+    display: block;
+    margin-top: 97px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: var(--accent-color2);
+    border: none;
+}
