@@ -1,0 +1,77 @@
+.hero__container{
+    margin-top: 77px;
+    padding: 77px 36px 77px 36px;
+    display: flex;
+}
+.wrapper{
+   
+    font-family: 'Red Hat Display';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 22px;
+letter-spacing: 1px;
+text-transform: uppercase;
+background-color: #EEF0F4;
+}
+.hero__right{
+    color: var(--accent-color);
+    padding-top: 90px;
+    padding-left: 83px;
+
+}
+.hero__pre_title{
+    margin-bottom: 16px;
+    font-family: 'Red Hat Display';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 22px;
+/* identical to box height, or 160% */
+
+letter-spacing: 1px;
+text-transform: uppercase;
+color: var(--accent-color);
+
+
+}
+.hero__title{
+    margin-bottom: 16px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+font-size: 70px;
+line-height: 90px;
+
+}
+.hero__description{
+    font-family: 'Red Hat Display';
+font-style: normal;
+font-weight: 400;
+font-size: 20px;
+line-height: 36px;
+margin-bottom: 25px;
+   
+}
+.button{
+    width: 214px;
+    height: 62px;
+    background: --accent-color;
+border-radius: 6px;
+}
+.hero__img{
+   margin-top: 60px;
+    @media screen and (min-width:480px) {
+        width: 200px;
+        height: 200px;
+      }
+    
+      @media screen and (min-width:768px) {
+        width: 500px;
+        height: 768px;
+      }
+      @media screen and (min-width:1200px) {
+        width: 500px;
+        height: 600px;
+      }
+}
