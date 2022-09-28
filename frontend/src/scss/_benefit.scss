@@ -1,34 +1,74 @@
-.benefit__container{
+.benefit__wrapper{
+    background-color: #EEF0F4;
+}.benefit__container{
 display: flex;
-padding: 150px 100px;
+    @media screen and (max-width:767.99px) {
+        padding: 50px 20px;
+    }
+    @media screen and (min-width:768px) {
+        padding: 50px 20px;
+    }
+    @media screen and (min-width:1200px) {
+      padding: 150px 100px;
+    }
+
 }
 .benefit__left{
-    width: 600px;
+    
     margin-right: 155px;
     margin-top: 50px;
+    @media screen and (max-width:767.99px){
+       text-align: center;
+       margin: 0 auto;
+    }
 
 }
 .benefit__title{
-    width: 497px;
     margin-bottom: 30px;
     font-family: 'Roboto';
-font-style: normal;
-font-weight: 400;
-font-size: 50px;
-line-height: 70px;
+    font-style: normal;
+    font-weight: 400;
+    @media screen and (max-width:767.99px) {
+        font-size: 30px;
+        line-height: 35px;
+    }
+    @media screen and (min-width:1200px) {
+    // width: 497px;
+    font-size: 50px;
+    line-height: 70px;
+    }
 }
 .benefit__text{
-    width: 460px;
+    
     margin-bottom: 25px;
     font-family: 'Red Hat Display';
     font-style: normal;
     font-weight: 400;
-    font-size: 20px;
+    font-size: 15px;
     line-height: 36px;
+    @media screen and (max-width:767.99px) {
+        line-height: 20px;
+    }
+}
+
+.benefit__img{
+    @media screen and (max-width:767.99px) {
+        width: 200px;
+        height: 200px;
+        margin-top: 50px;
+        margin-left: 20px;
+    }
+    @media screen and (min-width:768px) {
+        width: 300px;
+        height: 300px;
+    }
+    @media screen and (min-width:1200px) {
+        width: 484px;
+        height: 500px;
+    }
 }
 .benefit__button{
-
-}
-.benefit__img{
-
+    @media screen and (max-width:767.99px) {
+        width: 100px;
+    }
 }

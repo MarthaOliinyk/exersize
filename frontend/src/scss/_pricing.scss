@@ -1,60 +1,84 @@
 .pricing__container
 {
-    padding-top:100px;
-    padding-bottom: 100px;
-    
-}.pricing__pre_title{
+    @media screen and (max-width:767.99px) {
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+    @media screen and (min-width:768px) {
+      padding-top: 60px;
+      padding-bottom: 60px;
+    }
+    @media screen and (min-width:1200px) {
+        padding-top:100px;
+        padding-bottom: 100px;
+    }
+}
+.pricing__pre_title{
     margin-bottom: 11px;
     text-align: center;
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
-    line-height: 70px;
-    /* identical to box height, or 352% */
-    
-    
     color: #000000;
-    
 }
 .pricing__title{
-    margin-bottom: 70px;
     text-align: center;
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
-    font-size: 50px;
-    line-height: 70px;
-    /* identical to box height, or 110% */
     color: #000000;
+      @media screen and (max-width:767.99px) {
+        margin-bottom: 40px;
+      }
+      @media screen and (min-width:768px) {
+        margin-bottom: 40px;
+      }
+      @media screen and (min-width:1200px) {
+      font-size: 50px;
+      line-height: 70px;
+      margin-bottom: 70px;
+      }
     
 }
 .pricing__list{
-display: flex;
-justify-content: center;
 margin: 0 auto;
-
+display: block;
+@media screen and (min-width:768px) {
+    display: flex;
+ }
 }
 .pricing__item{
     list-style: none;
-    width: 400px;
-    height: 500px;
+    width: 300px;
+    height: 400px;
     padding: 18px;
     background-color: #D9D9D9;
-    &:not(:last-child){
-        margin-right: 38px;
-    }
+    @media screen and (max-width:767.99px) {
+        margin-left: 50%;
+        transform: translateX(-50%);
+        &:not(:last-child){
+            margin-bottom: 50px;
+        }
+         }
+    @media screen and (min-width:768px) {
+        &:not(:last-child){
+            margin-right: 38px;
+        }
+        width: 300px;
+        height: 500px;
+     }
+     @media screen and (min-width:1200px) {
+        width: 370px;
+      }
 
 }
 .plan__title{
     text-align: center;
     font-family: 'Roboto';
-font-style: normal;
-font-weight: 400;
-font-size: 20px;
-line-height: 70px;
-/* identical to box height, or 352% */
-
-
-color: #000000;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 70px;
+    color: #000000;
 }

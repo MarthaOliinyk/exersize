@@ -5,7 +5,7 @@ export default function FooterMarkup(){
     return(
         <section className="footer">
             <Container>
-                <img src={logo} alt="logo"></img>
+                <img className='footer__img' src={logo} alt="logo"></img>
             </Container>
         </section>
     )
