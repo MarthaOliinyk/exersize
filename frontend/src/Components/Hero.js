@@ -14,11 +14,11 @@ export default function HeroMarkup()
                     <p className="hero__pre_title">Exercise Platform</p>
                     <h1 className="hero__title">Unleash your inner strength</h1>
                     <p className="hero__description">ExerSize+ lets you stay fit and healthy everywhere in the world. With the help of our highly experienced proffesional trainers it is dead-easy to continue workouts outside of your gym.</p>
-                    <Button className="btn">Online cosching</Button>
+                    <Button className="btn hero__btn">Online cosching</Button>
                 </div>
 
          </div>
-        </div>
+         </div>
        
     )
 }

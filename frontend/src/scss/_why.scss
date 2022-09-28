@@ -1,34 +1,52 @@
 .why__left_part{
     display: flex;
     flex-wrap: wrap;
-    width: 500px;
-    margin-right: 100px;
+   
+    @media screen and (max-width:767.99px) {
+        margin: 0;
+    }
+    @media screen and (min-width:768px) {
+        margin: 0;
+        margin-left: 100px;
+         width: 500px;
+    }
+    @media screen and (min-width:1200px) {
+        margin-left: 0;
+        margin-right: 100px;
+      }
 }
 .why__right_part{
-width: 500px;
-margin-top: 83px;
-
+    @media screen and (min-width:1200px) {
+       width: 500px;
+      }
+    margin-top: 83px;
 }
 .why__container{
-    margin-left: 200px;
-    margin-right: 200px;
-    display: flex;
+@media screen and (max-width:767.99px) {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+  @media screen and (min-width:768px) {
+    padding-top: 50px;
+    padding-bottom: 50px;
+  }
+  @media screen and (min-width:1200px) {
     padding-top: 80px;
     padding-bottom: 126px;
-// width: 1090px;
+    width: 1090px;
+    display: flex;
+  }
 
 }
 .why__number{
-    font-family: 'Open Sans';
+font-family: 'Open Sans';
 font-style: normal;
 font-weight: 700;
 font-size: 48px;
 line-height: 65px;
 text-align: center;
 letter-spacing: 0.05em;
-
 color: #FFFAFA;
-
 }
 .why__number_text{
     align-items: center;
@@ -37,40 +55,65 @@ color: #FFFAFA;
     font-weight: 600;
     font-size: 15px;
     line-height: 20px;
-    /* identical to box height */
-    
     text-align: center;
-    
     color: #FFFDFD;
 }
 .why__sq{
+    width: calc(50% - 20px);
     padding: 25px;
-    width: 190px;
+    
+    @media screen and (max-width:460px){
+        margin-right: 15px;
+        margin-bottom: 15px;
+    }
     height: 150px;
     background-color: var(--accent-color2) ;
+     @media screen and (min-width:460px) {
+        width: 190px;
+        }
+    
 }
-.why_sq:nth-child(1)
+.why_sq:nth-child(1n)
 {
-    margin-top: 60px;
+    @media screen and (min-width:460px) {
+        margin-top: 60px;
+     }
 }
 .why__sq:nth-child(2n){
-    margin-top: 60px;
-    margin-left: 52px;
+    @media screen and (min-width:460px) {
+        margin-top: 60px;
+        margin-left: 52px;
+        }
 }
+
 .why__title{
     margin-bottom: 16px;
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
-font-size: 70px;
-line-height: 90px;
+
+    @media screen and (max-width:767.99px) {
+            text-align: center;
+    }
+  
+    @media screen and (min-width:768px) {
+      text-align: center;
+    }
+    @media screen and (min-width:1200px) {
+        text-align-last: left;
+        font-size: 70px;
+        line-height: 90px;
+    }
 }
 .why__text{
     font-family: 'Red Hat Display';
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
+    font-size: 20px;
     line-height: 36px;
-    margin-bottom: 25px;
-
+    text-align: center;
+    @media screen and (min-width:1200px) {
+        text-align: left;
+    };
 }

@@ -1,0 +1,89 @@
+.gallery__top{
+
+}
+.gallery__list{
+    display: flex;
+}
+.gallery__item{
+    list-style: none;
+    &:not(:last-child){
+        margin-right: 35px;
+    }
+}
+.gallery__middle{
+    width: 100%;
+    height: 275px;
+    background-color: var(--accent-color2);
+    @media screen and (max-width:767.99px) {
+        height: 120px;
+    }
+
+}
+.gallery__links{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 114px;
+    @media screen and (max-width:767.99px) {
+        padding-top: 50px;
+    }
+
+}
+.gallery__link{
+    display: flex;
+    
+    @media screen and (max-width:767.99px) {
+        &:not(:last-child)
+        {
+            margin-right: 20px;
+        }  
+    }
+    @media screen and (min-width:768px) {
+        &:not(:last-child)
+        {
+            margin-right: 20px;
+        }
+    }
+    @media screen and (min-width:1200px) {
+        &:not(:last-child)
+    {
+        margin-right: 78px;
+    }
+    }
+    
+}
+.gallery__svg{
+width: 25px;
+height: 25px;
+fill: white;
+margin-right: 5px;
+}
+.gallery__social{
+    font-family: 'Red Hat Display';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 22px;
+    letter-spacing: 0.5px;
+    color: #FFFFFF;
+    @media screen and (max-width:767.99px) {
+        font-size: 8px;
+    }
+    @media screen and (min-width:768px) {
+      height: 200px;
+    }
+}
+.gallery__img{
+    width: 334px;
+    
+    @media screen and (max-width:767.99px) {
+        height: 120px;
+    }
+    @media screen and (min-width:768px) {
+      height: 200px;
+    }
+    @media screen and (min-width:1200px) {
+        height: 280px;
+    }
+}
