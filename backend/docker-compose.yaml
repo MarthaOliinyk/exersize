@@ -1,0 +1,18 @@
+version: '3.3'
+services:
+  exersize:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'exersize'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - exersize:/var/lib/mysql
+volumes:
+  exersize:

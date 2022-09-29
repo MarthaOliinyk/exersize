@@ -58,9 +58,6 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
-.env
-
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -187,3 +184,5 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+.idea
