@@ -6,10 +6,12 @@ from flask_jwt_extended import JWTManager
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
-app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
+
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+
+app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY')
 app.config['JWT_BLACKLIST_ENABLED'] = True
 app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
 
@@ -19,6 +21,17 @@ db = SQLAlchemy(app)
 
 jwt = JWTManager(app)
 
-from src import resources
+import src.models as models
+import src.resources as resources
 
-api.add_resource(resources.Users, '/')
+
+@app.before_request
+def create_tables():
+    db.create_all()
+
+
+@jwt.token_in_blocklist_loader
+def check_if_token_in_blocklist(header, decrypted_token):
+    jti = decrypted_token['jti']
+
+    return models.RevokedTokenModel.is_jti_blacklisted(jti)
