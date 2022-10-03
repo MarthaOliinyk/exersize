@@ -1,13 +1,18 @@
 from app import db
+from flask import jsonify
 from passlib.hash import pbkdf2_sha256 as sha256
+from sqlalchemy import func
+from sqlalchemy import DateTime
 
 
-class UserModel(db.Model):
-    __tablename__ = 'users'
-
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    registrationDate = db.Column(DateTime(timezone=True), server_default=func.now())
+    roles = db.relationship('Role', secondary='user_roles',
+                            backref=db.backref('users', lazy='dynamic'))
 
     def save_to_db(self):
         db.session.add(self)
@@ -27,7 +32,7 @@ class UserModel(db.Model):
                 'password': x.password
             }
 
-        return {'users': [to_json(user) for user in UserModel.query.all()]}
+        return {'users': [to_json(user) for user in User.query.all()]}
 
     @classmethod
     def delete_all(cls):
@@ -35,9 +40,13 @@ class UserModel(db.Model):
             num_rows_deleted = db.session.query(cls).delete()
             db.session.commit()
 
-            return {'message': f'{num_rows_deleted} row(s) deleted'}
+            return jsonify({
+                "message": f"{num_rows_deleted} row(s) deleted"
+            })
         except:
-            return {'message': 'Something went wrong'}
+            return jsonify({
+                "message": "Something went wrong"
+            })
 
     @staticmethod
     def generate_hash(password):
@@ -46,6 +55,21 @@ class UserModel(db.Model):
     @staticmethod
     def verify_hash(password, hash_):
         return sha256.verify(password, hash_)
+
+
+class Role(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(45), unique=True)
+
+    @classmethod
+    def find_by_name(cls, name):
+        return cls.query.filter_by(name=name).first()
+
+
+class UserRoles(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column(db.Integer(), db.ForeignKey('user.id', ondelete='CASCADE'))
+    role_id = db.Column(db.Integer(), db.ForeignKey('role.id', ondelete='CASCADE'))
 
 
 class RevokedTokenModel(db.Model):

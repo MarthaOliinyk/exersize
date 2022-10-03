@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse
 from app import app
-from .models import UserModel, RevokedTokenModel
+from .models import User, RevokedTokenModel, Role
 
 from flask_jwt_extended import (
     create_access_token,
@@ -16,20 +16,26 @@ parser = reqparse.RequestParser()
 
 parser.add_argument('username', help='username cannot be blank', required=True)
 parser.add_argument('password', help='password cannot be blank', required=True)
+parser.add_argument('email', help='email cannot be blank', required=True)
 
 
 @app.route('/registration', methods=['POST'])
 def register():
     data = parser.parse_args()
     username = data['username']
+    email = data['email']
 
-    if UserModel.find_by_username(username):
+    if User.find_by_username(username):
         return {'message': f'User {username} already exists'}
 
-    new_user = UserModel(
+    new_user = User(
         username=username,
-        password=UserModel.generate_hash(data['password'])
+        password=User.generate_hash(data['password'],),
+        email=email
     )
+    role = Role.find_by_name('user')
+
+    new_user.roles.append(role)
 
     try:
         new_user.save_to_db()
@@ -51,12 +57,12 @@ def login():
     data = parser.parse_args()
     username = data['username']
 
-    current_user = UserModel.find_by_username(username)
+    current_user = User.find_by_username(username)
 
     if not current_user:
         return {'message': f'User {username} doesn\'t exist'}
 
-    if UserModel.verify_hash(data['password'], current_user.password):
+    if User.verify_hash(data['password'], current_user.password):
         access_token = create_access_token(identity=username)
         refresh_token = create_refresh_token(identity=username)
 
@@ -108,13 +114,20 @@ def refresh():
 
 
 @app.route('/users', methods=['GET'])
+@jwt_required()
 def get_users():
-    return UserModel.return_all()
+    current_user = get_jwt_identity()
+    user = User.find_by_username(current_user)
+    for role in user.roles:
+        if "admin" == role.name:
+            return User.return_all()
+    return "No permission", 403
+
 
 
 @app.route('/users', methods=['DELETE'])
 def delete_users():
-    return UserModel.delete_all()
+    return User.delete_all()
 
 
 @app.route('/secret', methods=['GET'])
