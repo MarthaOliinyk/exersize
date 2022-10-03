@@ -1,8 +1,6 @@
-from flask_login import login_required
 from flask_restful import Resource, reqparse
 from app import app
 from .models import User, RevokedTokenModel, Role
-from flask_user import roles_required
 
 from flask_jwt_extended import (
     create_access_token,
@@ -18,33 +16,32 @@ parser = reqparse.RequestParser()
 
 parser.add_argument('username', help='username cannot be blank', required=True)
 parser.add_argument('password', help='password cannot be blank', required=True)
+parser.add_argument('email', help='email cannot be blank', required=True)
 
 
 @app.route('/registration', methods=['POST'])
 def register():
     data = parser.parse_args()
     username = data['username']
+    email = data['email']
 
     if User.find_by_username(username):
         return {'message': f'User {username} already exists'}
 
     new_user = User(
         username=username,
-        password=User.generate_hash(data['password']),
+        password=User.generate_hash(data['password'],),
+        email=email
     )
-    role = Role(name="user")
+    role = Role.find_by_name('user')
 
     new_user.roles.append(role)
 
     try:
-        print(0)
-
         new_user.save_to_db()
-        print(1)
 
         access_token = create_access_token(identity=username)
         refresh_token = create_refresh_token(identity=username)
-        print(2)
 
         return {
             'message': f'User {username} was created',
@@ -121,9 +118,11 @@ def refresh():
 def get_users():
     current_user = get_jwt_identity()
     user = User.find_by_username(current_user)
-    if "admin" in user.roles:
-        return User.return_all()
+    for role in user.roles:
+        if "admin" == role.name:
+            return User.return_all()
     return "No permission", 403
+
 
 
 @app.route('/users', methods=['DELETE'])

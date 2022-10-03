@@ -9,8 +9,8 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
-    #email = db.Column(db.String(120), unique=True, nullable=False)
-    #registrationDate = db.Column(DateTime(timezone=True), server_default=func.now())
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    registrationDate = db.Column(DateTime(timezone=True), server_default=func.now())
     roles = db.relationship('Role', secondary='user_roles',
                             backref=db.backref('users', lazy='dynamic'))
 
@@ -60,6 +60,10 @@ class User(db.Model):
 class Role(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(45), unique=True)
+
+    @classmethod
+    def find_by_name(cls, name):
+        return cls.query.filter_by(name=name).first()
 
 
 class UserRoles(db.Model):
