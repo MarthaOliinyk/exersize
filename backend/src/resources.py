@@ -1,6 +1,7 @@
-from flask_restful import Resource, reqparse
 from app import app
+from flask_restful import reqparse
 from .models import User, RevokedTokenModel, Role
+from .utils import admin_required, coach_required, user_required
 
 from flask_jwt_extended import (
     create_access_token,
@@ -10,17 +11,15 @@ from flask_jwt_extended import (
     get_jwt
 )
 
-import pdb
-
-parser = reqparse.RequestParser()
-
-parser.add_argument('username', help='username cannot be blank', required=True)
-parser.add_argument('password', help='password cannot be blank', required=True)
-parser.add_argument('email', help='email cannot be blank', required=True)
-
 
 @app.route('/registration', methods=['POST'])
 def register():
+    parser = reqparse.RequestParser()
+
+    parser.add_argument('username', help='username cannot be blank', required=True)
+    parser.add_argument('password', help='password cannot be blank', required=True)
+    parser.add_argument('email', help='email cannot be blank', required=True)
+
     data = parser.parse_args()
     username = data['username']
     email = data['email']
@@ -30,7 +29,7 @@ def register():
 
     new_user = User(
         username=username,
-        password=User.generate_hash(data['password'],),
+        password=User.generate_hash(data['password'], ),
         email=email
     )
     role = Role.find_by_name('user')
@@ -54,6 +53,11 @@ def register():
 
 @app.route('/login', methods=['POST'])
 def login():
+    parser = reqparse.RequestParser()
+
+    parser.add_argument('username', help='username cannot be blank', required=True)
+    parser.add_argument('password', help='password cannot be blank', required=True)
+
     data = parser.parse_args()
     username = data['username']
 
@@ -89,7 +93,7 @@ def logout():
         return {'message': 'Something went wrong'}, 500
 
 
-@app.route('/logout', methods=['POST'])
+@app.route('/logout/refresh', methods=['POST'])
 @jwt_required(refresh=True)
 def logout_refresh():
     jti = get_jwt()['jti']
@@ -97,7 +101,6 @@ def logout_refresh():
     try:
         revoked_token = RevokedTokenModel(jti=jti)
         revoked_token.add()
-        pdb.set_trace()
 
         return {'message': 'Refresh token has been revoked'}
     except:
@@ -115,14 +118,9 @@ def refresh():
 
 @app.route('/users', methods=['GET'])
 @jwt_required()
+@admin_required
 def get_users():
-    current_user = get_jwt_identity()
-    user = User.find_by_username(current_user)
-    for role in user.roles:
-        if "admin" == role.name:
-            return User.return_all()
-    return "No permission", 403
-
+    return User.return_all()
 
 
 @app.route('/users', methods=['DELETE'])
