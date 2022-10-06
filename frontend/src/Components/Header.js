@@ -11,9 +11,9 @@ function BasicExample() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="header__nav">
-            <Nav.Link href="#hero" >About</Nav.Link>
-            <Nav.Link href="#why" >Classes</Nav.Link>
-            <Nav.Link href="#link" >Subscription plans</Nav.Link>
+            <Nav.Link href='/' >About</Nav.Link>
+            <Nav.Link href='/create' >Create</Nav.Link>
+            <Nav.Link  >Subscription plans</Nav.Link>
           </Nav>
           <Button  className="btn" >
           Sign up
