@@ -16,13 +16,6 @@ function App() {
   return (
     <div className="App">
       <Header/>
-      {/* <Hero/>
-      <NewCoursePage/>
-      <Why/>
-      <Workout/>
-      <Pricing/>
-      <Gallery/>
-      <Benefit/> */}
       <BrowserRouter>
         <Routes>
         <Route path="/" element={ <HomePage/>}/>
