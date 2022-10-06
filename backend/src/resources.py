@@ -110,10 +110,7 @@ def change_password():
     new_password = data['new_password']
     confirm_password = data['confirm_password']
 
-    print(old_password)
-    print(user.password)
-    print(current_user)
-    if User.verify_hash(old_password, user.password):
+    if not User.verify_hash(old_password, user.password):
         return {'message': 'Old password is invalid'}, 400
 
     if new_password != confirm_password:
