@@ -102,6 +102,36 @@ def logout():
         return {'message': 'Something went wrong'}, 500
 
 
+@app.route('/users/password', methods=['PUT'])
+@jwt_required()
+def change_password():
+    parser = reqparse.RequestParser()
+
+    parser.add_argument('old_password', help='password cannot be blank', required=True)
+    parser.add_argument('new_password', help='new password cannot be blank', required=True)
+    parser.add_argument('confirm_password', help='confirm password cannot be blank', required=True)
+
+    data = parser.parse_args()
+
+    current_user = get_jwt_identity()
+    user = User.find_by_username(current_user)
+    old_password = data['old_password']
+    new_password = data['new_password']
+    confirm_password = data['confirm_password']
+
+    if not User.verify_hash(old_password, user.password):
+        return {'message': 'Old password is invalid'}, 400
+
+    if new_password != confirm_password:
+        return {'message': 'New password doesn\'t match'}, 400
+
+    if old_password == new_password:
+        return {'message': 'New password is the same'}, 400
+
+    user.password = User.generate_hash(new_password)
+    return {'message': 'password was changed'}, 200
+
+
 @app.route('/logout/refresh', methods=['POST'])
 @jwt_required(refresh=True)
 def logout_refresh():
