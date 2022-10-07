@@ -10,6 +10,8 @@ class User(db.Model):
     username = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
+    fullname = db.Column(db.String(255), nullable=False)
+    age = db.Column(db.Integer, nullable=False)
     registrationDate = db.Column(DateTime(timezone=True), server_default=func.now())
     roles = db.relationship('Role', secondary='user_roles',
                             backref=db.backref('users', lazy='dynamic'))
@@ -20,8 +22,11 @@ class User(db.Model):
 
     @classmethod
     def find_by_username(cls, username):
-
         return cls.query.filter_by(username=username).first()
+
+    @classmethod
+    def find_by_email(cls, email):
+        return cls.query.filter_by(email=email).first()
 
     @classmethod
     def return_all(cls):
@@ -29,7 +34,10 @@ class User(db.Model):
         def to_json(x):
             return {
                 'username': x.username,
-                'password': x.password
+                'password': x.password,
+                'email': x.email,
+                'fullname': x.fullname,
+                'age': x.age
             }
 
         return {'users': [to_json(user) for user in User.query.all()]}
@@ -72,9 +80,7 @@ class UserRoles(db.Model):
     role_id = db.Column(db.Integer(), db.ForeignKey('role.id', ondelete='CASCADE'))
 
 
-class RevokedTokenModel(db.Model):
-    __tablename__ = 'revoked_tokens'
-
+class RevokedTokens(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     jti = db.Column(db.String(120))
 

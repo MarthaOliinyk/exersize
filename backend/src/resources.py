@@ -1,6 +1,6 @@
 from app import app
 from flask_restful import reqparse
-from .models import User, RevokedTokenModel, Role
+from .models import User, RevokedTokens, Role
 from .utils import admin_required, coach_required, user_required
 
 from flask_jwt_extended import (
@@ -18,19 +18,28 @@ def register():
 
     parser.add_argument('username', help='username cannot be blank', required=True)
     parser.add_argument('password', help='password cannot be blank', required=True)
+    parser.add_argument('fullname', help='fullname cannot be blank', required=True)
     parser.add_argument('email', help='email cannot be blank', required=True)
+    parser.add_argument('age', help='age cannot be blank', required=True)
 
     data = parser.parse_args()
     username = data['username']
     email = data['email']
+    fullname = data['fullname']
+    age = int(data['age'])
 
     if User.find_by_username(username):
-        return {'message': f'User {username} already exists'}
+        return {'message': f'User {username} already exists'}, 403
+
+    if User.find_by_email(email):
+        return {'message': f'User with email {email} already exists'}, 403
 
     new_user = User(
         username=username,
-        password=User.generate_hash(data['password'], ),
-        email=email
+        password=User.generate_hash(data['password']),
+        email=email,
+        fullname=fullname,
+        age=age
     )
     role = Role.find_by_name('user')
 
@@ -85,7 +94,7 @@ def logout():
     jti = get_jwt()['jti']
 
     try:
-        revoked_token = RevokedTokenModel(jti=jti)
+        revoked_token = RevokedTokens(jti=jti)
         revoked_token.add()
 
         return {'message': 'Access token has been revoked'}
@@ -99,7 +108,7 @@ def logout_refresh():
     jti = get_jwt()['jti']
 
     try:
-        revoked_token = RevokedTokenModel(jti=jti)
+        revoked_token = RevokedTokens(jti=jti)
         revoked_token.add()
 
         return {'message': 'Refresh token has been revoked'}
@@ -126,9 +135,3 @@ def get_users():
 @app.route('/users', methods=['DELETE'])
 def delete_users():
     return User.delete_all()
-
-
-@app.route('/secret', methods=['GET'])
-@jwt_required()
-def secret_resource():
-    return {'secrets': 'are now open to you'}
