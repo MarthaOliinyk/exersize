@@ -85,7 +85,7 @@ def login():
             'refresh_token': refresh_token
         }
     else:
-        return {'message': "Wrong credentials"}
+        return {'message': "Wrong credentials"}, 401
 
 
 @app.route('/logout', methods=['POST'])
@@ -129,6 +129,8 @@ def change_password():
         return {'message': 'New password is the same'}, 400
 
     user.password = User.generate_hash(new_password)
+    user.save_to_db()
+
     return {'message': 'password was changed'}, 200
 
 
