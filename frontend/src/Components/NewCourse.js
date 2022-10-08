@@ -15,29 +15,41 @@ function CreateMarkup(){
                     // const values=Object.fromEntries(formData.entries())
                     // console.log(values)
                     let fd = new FormData(form);
-
+                    // for (let [key, prop] of fd)
+                    // {
+                    //     console.log(key,prop)
+                    // }
                     let data = {};
-
-                    for (let [key, prop] of fd) {
-                        if(!data[key])
-                        {
-                            data[key] = prop;
-                        }
-                        else{
-                            const arr=[];
-                            arr.push(...data[key])
-                            arr.push(...prop)
-                            data[key] =arr;
-                        }
+                    let temp={};
+                    let t=0;
+                    data["subs_type"]=[];
+                    for (let [key, prop] of fd)
+                     {
+                            if(key==="subs_name" && t!==0)
+                            {
+                                data["subs_type"].push(temp);
+                                temp={};
+                                temp[key]=prop;
+                            }
+                           else if(key==="subs_name"||key==="classes_number"||key==="duration"||key==="price")
+                            {
+                                temp[key]=prop;
+                                t=1;
+                                
+                            }
+                            else{
+                                data[key] = prop;
+                            }
                     }
-
+                    data["subs_type"].push(temp);
                     data = JSON.stringify(data, null, 2);
 
                     console.log(data);
+                    form.reset();
                 })
                 
                 
-
+                
 
 
                 buttonAdd.addEventListener("click",(evt)=>
@@ -47,19 +59,19 @@ function CreateMarkup(){
                     const markup=`<h2 class='addcourse__option'>Option ${counter}</h2>
                     <div class='form__field'>
                     <label for="subs_name" class='form__label' >Name of subscription </label>
-                    <input id='subs_name' class='form__input' name="subs_name"></input>
+                    <input id='subs_name' required minlength="3" maxlength="45" class='form__input' name="subs_name"></input>
                 </div>
                 <div class='form__field'>
                     <label for="classes_number" class='form__label' >Number of classes </label>
-                    <input id='classes_number' class='form__input' name="classes_number"></input>
+                    <input id='classes_number' required type="number" class='form__input' name="classes_number"></input>
                 </div>
                 <div class='form__field'>
                     <label for="duration" class='form__label' >Duration (days)</label>
-                    <input id='duration' class='form__input' name="duration"></input>
+                    <input id='duration' required type="number" class='form__input' name="duration"></input>
                 </div>
                 <div class='form__field'>
                     <label for="price" class='form__label' >Price</label>
-                    <input id='price' class='form__input' name="price"></input>
+                    <input id='price' required type="number" class='form__input' name="price"></input>
                 </div>`
                     renderPart.insertAdjacentHTML("beforeend",markup)
                     })
@@ -74,11 +86,11 @@ function CreateMarkup(){
             <form className='form__addcourse'>
                 <div className='form__field'>
                     <label htmlFor="course_name" className='form__label'>Name of the course</label>
-                    <input id='course_name' name='course_name' className='form__input'></input>
+                    <input id='course_name' required minLength={3} maxLength={45} name='course_name' className='form__input'></input>
                 </div>
                 <div className='form__field'>
                     <label htmlFor="desc" className='form__label'>Description of the course</label>
-                    <textarea id='desc' name='desc' className='form__textarea'></textarea>
+                    <textarea id='desc' required minLength={10} maxLength={200} name='desc' className='form__textarea'></textarea>
                 </div>
                 <div className='form__field'>
                     <label htmlFor="type" className='form__label'>Type of the course</label>
@@ -96,19 +108,19 @@ function CreateMarkup(){
                 <h2 className='addcourse__option'>Option 1</h2>
                 <div className='form__field'>
                     <label htmlFor="subs_name" className='form__label' >Name of subscription </label>
-                    <input id='subs_name' className='form__input' name="subs_name"></input>
+                    <input id='subs_name' required minLength={3} maxLength={45} className='form__input' name="subs_name"></input>
                 </div>
                 <div className='form__field'>
                     <label htmlFor="classes_number" className='form__label' >Number of classes </label>
-                    <input id='classes_number' className='form__input' name="classes_number"></input>
+                    <input id='classes_number' required type={"number"} className='form__input' name="classes_number"></input>
                 </div>
                 <div className='form__field'>
                     <label htmlFor="duration" className='form__label' >Duration (days)</label>
-                    <input id='duration' className='form__input' name="duration"></input>
+                    <input id='duration' required type={"number"} className='form__input' name="duration"></input>
                 </div>
                 <div className='form__field'>
                     <label htmlFor="price" className='form__label' >Price</label>
-                    <input id='price' className='form__input' name="price"></input>
+                    <input id='price' required type={"number"} className='form__input' name="price"></input>
                 </div>
                 <div className='addcourse__render'>
 
@@ -122,23 +134,3 @@ function CreateMarkup(){
     )
 }
 export default CreateMarkup
-
-// const App = () => {
-//    
-// }
-// App();
-
-// const form=document.querySelector("form");
-// console.log(form);
-// if(buttonAdd)
-// {
-//     buttonAdd.addEventListener("click",onAddClick)
-//     console.log(buttonAdd)
-// }
-
-// function onAddClick(evt)
-// {
-// evt.preventDafault();
-// const markup=`<h1>Hello<h1/>`
-// form.insertAdjacentHTML("beforeend",markup)
-// }
