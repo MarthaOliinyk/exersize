@@ -1,6 +1,6 @@
 from app import app
 from flask_restful import reqparse
-from .models import User, RevokedTokens, Role
+from .models import User, RevokedTokens, Role, Subscription_type
 from .utils import admin_required, coach_required, user_required
 
 from flask_jwt_extended import (
@@ -167,3 +167,31 @@ def get_users():
 @app.route('/users', methods=['DELETE'])
 def delete_users():
     return User.delete_all()
+
+@app.route('/subscription_type', methods=['POST'])
+def add_subscription_type():
+    parser = reqparse.RequestParser()
+
+    parser.add_argument('name', help='name cannot be blank', required=True)
+    parser.add_argument('session_count', help='session count cannot be blank', required=True)
+    parser.add_argument('duration', help='duration cannot be blank', required=True)
+    parser.add_argument('price', help='price cannot be blank', required=True)
+    parser.add_argument('course_id', help='course id cannot be blank', required=True)
+
+    data = parser.parse_args()
+    name = data["name"]
+
+    new_subscription_type = Subscription_type(
+        name=name,
+        session_count=data["session_count"],
+        duration=data["duration"],
+        price=data["price"],
+        course_id=data["course_id"]
+    )
+
+    try:
+        new_subscription_type.add()
+
+        return {'message': f'Subscription type {name} was created'}
+    except:
+        return {'message': 'Something went wrong'}, 500
