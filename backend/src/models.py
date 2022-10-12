@@ -14,8 +14,10 @@ class User(db.Model):
     age = db.Column(db.Integer, nullable=False)
     registrationDate = db.Column(DateTime(timezone=True), server_default=func.now())
     roles = db.relationship('Role', secondary='user_roles',
-                            backref=db.backref('users', lazy='dynamic'))
+                            backref=db.backref('user', lazy='dynamic'))
     subscriptions = db.relationship('Subscription', backref='user', lazy=True)
+    courses = db.relationship('Course', secondary='user_courses',
+                              backref=db.backref('user', lazy='dynamic'))
 
     def save_to_db(self):
         db.session.add(self)
@@ -104,6 +106,7 @@ class Course(db.Model):
     description = db.Column(db.String(200))
     tag = db.Column(db.String(45))
     subscription_type = db.relationship('SubscriptionType', backref='course', lazy=True)
+    users = db.relationship('User', secondary='user_courses')
 
     def save_to_db(self):
         db.session.add(self)
@@ -175,3 +178,9 @@ class SubscriptionType(db.Model):
             }
 
         return {'subscription_types': [to_json(s_type) for s_type in SubscriptionType.query.all()]}
+
+
+class UserCourses(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    user_id = db.Column(db.Integer(), db.ForeignKey('user.id', ondelete='CASCADE'))
+    course_id = db.Column(db.Integer(), db.ForeignKey('course.id', ondelete='CASCADE'))

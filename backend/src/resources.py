@@ -182,6 +182,8 @@ def delete_users():
 
 
 @app.route('/courses', methods=['POST'])
+@jwt_required()
+@coach_required
 def course():
     parser1 = reqparse.RequestParser()
     parser1.add_argument('name', type=str, required=True, help='This field cannot be left blank')
@@ -194,11 +196,15 @@ def course():
     description = data['description']
     tag = data['tag']
 
+    current_user = get_jwt_identity()
+    user = User.find_by_username(current_user)
+
     new_course = Course(
         name=name,
         description=description,
         tag=tag
     )
+    new_course.users.append(user)
     new_course.save_to_db()
 
     course_id = Course.get_id(name)
