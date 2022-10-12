@@ -10,15 +10,7 @@ function CreateMarkup(){
                 const buttonCreate=document.querySelector(".addcourse__create");
                 form.addEventListener('submit',(evt)=>{
                     evt.preventDefault();
-                    // const formData = new FormData(form);
-                    // formData.get("course__name")
-                    // const values=Object.fromEntries(formData.entries())
-                    // console.log(values)
                     let fd = new FormData(form);
-                    // for (let [key, prop] of fd)
-                    // {
-                    //     console.log(key,prop)
-                    // }
                     let data = {};
                     let temp={};
                     let t=0;
@@ -90,7 +82,7 @@ function CreateMarkup(){
                 </div>
                 <div className='form__field'>
                     <label htmlFor="desc" className='form__label'>Description of the course</label>
-                    <textarea id='desc' required minLength={10} maxLength={200} name='desc' className='form__textarea'></textarea>
+                    <textarea id='desc' required minLength={10} maxLength={2000} name='desc' className='form__textarea'></textarea>
                 </div>
                 <div className='form__field'>
                     <label htmlFor="type" className='form__label'>Type of the course</label>
