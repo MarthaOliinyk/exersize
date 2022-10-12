@@ -15,7 +15,7 @@ class User(db.Model):
     registrationDate = db.Column(DateTime(timezone=True), server_default=func.now())
     roles = db.relationship('Role', secondary='user_roles',
                             backref=db.backref('users', lazy='dynamic'))
-    subscriptions = db.relationship('Subscription', backref=db.backref('user', lazy='dynamic'))
+    subscriptions = db.relationship('Subscription', backref='user', lazy=True)
 
     def save_to_db(self):
         db.session.add(self)
@@ -98,22 +98,80 @@ class RevokedTokens(db.Model):
         return bool(cls.query.filter_by(jti=jti).first())
 
 
+class Course(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(45))
+    description = db.Column(db.String(200))
+    tag = db.Column(db.String(45))
+    subscription_type = db.relationship('SubscriptionType', backref='course', lazy=True)
+
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def return_all(cls):
+        def to_json(x):
+            return {
+                'name': x.name,
+                'description': x.description,
+                'tag': x.tag
+            }
+
+        return {'courses': [to_json(course) for course in Course.query.all()]}
+
+    @classmethod
+    def delete_all(cls):
+        try:
+            num_rows_deleted = db.session.query(cls).delete()
+            db.session.commit()
+
+            return jsonify({
+                "message": f"{num_rows_deleted} row(s) deleted"
+            })
+        except:
+            return jsonify({
+                "message": "Something went wrong"
+            })
+
+    @classmethod
+    def get_id(cls, name):
+        return cls.query.filter_by(name=name).first().id
+
+
 class Subscription(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     start = db.Column(db.DateTime, nullable=False)
     end = db.Column(db.DateTime, nullable=False)
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id', ondelete='CASCADE'))
     subscription_type_id = db.Column(db.Integer(), db.ForeignKey('subscription_type.id', ondelete='CASCADE'))
+
     def add(self):
         db.session.add(self)
         db.session.commit()
-class Subscription_type(db.Model):
+
+
+class SubscriptionType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
     session_count = db.Column(db.Integer, nullable=False)
     duration = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Float, nullable=False)
     course_id = db.Column(db.Integer(), db.ForeignKey('course.id', ondelete='CASCADE'))
-    def add(self):
+
+    def save_to_db(self):
         db.session.add(self)
         db.session.commit()
+
+    @classmethod
+    def return_all(cls):
+        def to_json(x):
+            return {
+                'name': x.name,
+                'session_count': x.session_count,
+                'duration': x.duration,
+                'price': x.price,
+                'course_id': x.course_id
+            }
+
+        return {'subscription_types': [to_json(s_type) for s_type in SubscriptionType.query.all()]}

@@ -1,6 +1,6 @@
 from app import app
 from flask_restful import reqparse
-from .models import User, RevokedTokens, Role, Subscription_type
+from .models import User, RevokedTokens, Role, SubscriptionType, Course
 from .utils import admin_required, coach_required, user_required
 
 from flask_jwt_extended import (
@@ -180,30 +180,51 @@ def get_user_roles():
 def delete_users():
     return User.delete_all()
 
-@app.route('/subscription_type', methods=['POST'])
-def add_subscription_type():
-    parser = reqparse.RequestParser()
 
-    parser.add_argument('name', help='name cannot be blank', required=True)
-    parser.add_argument('session_count', help='session count cannot be blank', required=True)
-    parser.add_argument('duration', help='duration cannot be blank', required=True)
-    parser.add_argument('price', help='price cannot be blank', required=True)
-    parser.add_argument('course_id', help='course id cannot be blank', required=True)
+@app.route('/courses', methods=['POST'])
+def course():
+    parser1 = reqparse.RequestParser()
+    parser1.add_argument('name', type=str, required=True, help='This field cannot be left blank')
+    parser1.add_argument('description', type=str, required=True, help='This field cannot be left blank')
+    parser1.add_argument('tag', type=str, required=True, help='This field cannot be left blank')
+    parser1.add_argument('sub_type', type=dict, action='append', required=True, help='This field cannot be left blank')
+    data = parser1.parse_args()
 
-    data = parser.parse_args()
-    name = data["name"]
+    name = data['name']
+    description = data['description']
+    tag = data['tag']
 
-    new_subscription_type = Subscription_type(
+    new_course = Course(
         name=name,
-        session_count=data["session_count"],
-        duration=data["duration"],
-        price=data["price"],
-        course_id=data["course_id"]
+        description=description,
+        tag=tag
     )
+    new_course.save_to_db()
 
-    try:
-        new_subscription_type.add()
+    course_id = Course.get_id(name)
 
-        return {'message': f'Subscription type {name} was created'}
-    except:
-        return {'message': 'Something went wrong'}, 500
+    for s_type in data['sub_type']:
+        name = s_type['name']
+        session_count = s_type['count']
+        duration = int(s_type['duration'])
+        price = float(s_type['price'])
+        subscription_type = SubscriptionType(name=name, session_count=session_count, duration=duration,
+                                             price=price, course_id=course_id)
+        subscription_type.save_to_db()
+
+    return {'message': 'course and sub type have been created successfully.'}, 201
+
+
+@app.route('/courses', methods=['GET'])
+def get_courses():
+    return Course.return_all()
+
+
+@app.route('/courses', methods=['DELETE'])
+def delete_courses():
+    return Course.delete_all()
+
+
+@app.route('/stypes', methods=['GET'])
+def get_stypes():
+    return SubscriptionType.return_all()
