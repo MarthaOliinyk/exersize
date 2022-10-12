@@ -1,7 +1,11 @@
 from app import app
 from flask_restful import reqparse
-from .models import User, RevokedTokens, Role, SubscriptionType, Course
-from .utils import admin_required, coach_required, user_required
+from src.model.course import Course
+from src.model.revoked_tokens import RevokedTokens
+from src.model.role import Role
+from src.model.subscription_type import SubscriptionType
+from src.model.user import User
+from .utils import admin_required, coach_required
 
 from flask_jwt_extended import (
     create_access_token,
@@ -204,8 +208,10 @@ def course():
         description=description,
         tag=tag
     )
-    new_course.users.append(user)
     new_course.save_to_db()
+
+    user.courses.append(new_course)
+    user.save_to_db()
 
     course_id = Course.get_id(name)
 

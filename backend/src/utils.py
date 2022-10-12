@@ -1,4 +1,4 @@
-from .models import User
+from src.model.user import User
 from functools import wraps
 
 from flask_jwt_extended import get_jwt_identity
