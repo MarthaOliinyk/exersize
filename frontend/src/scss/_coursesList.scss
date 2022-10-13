@@ -1,0 +1,114 @@
+.courses__header{
+    margin-top: 100px;
+    text-align: center;
+    margin-bottom: 40px;
+
+    font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 80px;
+line-height: 90px;
+
+}
+.courses__list{
+    
+    list-style: none;
+}
+.courses__item{
+background-color: #EEF0F4;
+padding: 20px;
+&:not(:last-child)
+{
+    margin-bottom: 70px;
+}
+}
+.courses__title{
+    font-family: 'Raleway';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 24px;
+}
+.courses__line{
+    font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 20px;
+line-height: 30px;
+&--big{
+    text-align: center;
+    font-size: 40px;
+}
+&--name{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    height: 50px;
+    background-color: var(--accent-color);
+    text-align: center;
+    font-size: 40px;
+    
+    color: white;
+}
+&:not(:last-child)
+{
+    margin-bottom: 20px;
+}
+
+}
+.courses__subs{
+    text-align: center;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 55px;
+    line-height: 90px;
+    margin-bottom: 40px;
+    
+}
+.courses__subscription{
+    padding: 20px;
+    background-color: #d4d6d98f;
+    &:not(:last-child)
+    {
+        margin-bottom: 20px;
+    }
+}
+.courses__btn{
+    width: 214px;
+    height: 46px;
+   
+color:white;
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 700;
+font-size: 18px;
+line-height: 28px;
+text-align: center;
+border-radius: 4px;
+border: none;
+&--more{
+    background-color: var(--accent-color);
+    margin-left: auto;
+    margin-right: 20px;
+    &:hover{
+        color:var(--accent-color2);
+    }
+}
+&--subs{
+    background-color: var(--accent-color2);
+    margin-right: auto;
+    &:hover{
+        color:var(--accent-color);
+    }
+}
+}
+.courses__buttons{
+    display: flex;
+    margin-left: auto;
+    margin-top: 20px;
+}
+.more{
+    display: none;
+}

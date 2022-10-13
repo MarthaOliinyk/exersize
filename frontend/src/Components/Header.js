@@ -13,7 +13,7 @@ function BasicExample() {
           <Nav className="header__nav">
             <Nav.Link href='/' >About</Nav.Link>
             <Nav.Link href='/create' >Create</Nav.Link>
-            <Nav.Link  >Subscription plans</Nav.Link>
+            <Nav.Link href='/courses' >Courses</Nav.Link>
           </Nav>
           <Button  className="btn" >
           Sign up
