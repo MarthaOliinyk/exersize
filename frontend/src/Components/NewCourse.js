@@ -1,7 +1,8 @@
 import React  from 'react';
 import {Button} from 'react-bootstrap';
 import {useEffect} from 'react';
-function CreateMarkup(){
+function CreateMarkup()
+{
     useEffect(() => {
                 let counter=1;
                 const renderPart=document.querySelector(".addcourse__render");

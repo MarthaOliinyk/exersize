@@ -5,6 +5,7 @@ import Why from "./Components/Why"
 import Workout from "./Components/Workout"
 import Pricing from "./Components/Pricing"
 import Benefit from "./Components/Benefit"
+import CoursesList from "./Components/CoursesList"
 import Footer from "./Components/Footer"
 import Gallery from "./Components/Gallery";
 import NewCoursePage from "./Components/NewCourse";
@@ -20,8 +21,9 @@ function App() {
         <Routes>
         <Route path="/" element={ <HomePage/>}/>
         <Route path="/create" element={ <NewCoursePage/>} />
-        </Routes>
-      </BrowserRouter>
+        <Route path="/courses" element={<CoursesList/>}/>
+        </Routes >
+      </BrowserRouter >
       <Footer/>
     </div>
   );
