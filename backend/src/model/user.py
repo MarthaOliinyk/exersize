@@ -13,9 +13,11 @@ class User(db.Model):
     fullname = db.Column(db.String(255), nullable=False)
     age = db.Column(db.Integer, nullable=False)
     registrationDate = db.Column(DateTime(timezone=True), server_default=func.now())
-    roles = db.relationship('Role', secondary='user_roles',
-                            backref=db.backref('users', lazy='dynamic'))
-    subscriptions = db.relationship('Subscription', backref=db.backref('user', lazy='dynamic'))
+    roles = db.relationship('Role', secondary='users_roles',
+                            backref=db.backref('user', lazy='dynamic'))
+    subscriptions = db.relationship('Subscription', backref='user', lazy=True)
+    courses = db.relationship('Course', secondary='users_courses',
+                              backref=db.backref('user', lazy='dynamic'))
 
     def save_to_db(self):
         db.session.add(self)
@@ -68,52 +70,3 @@ class User(db.Model):
     @staticmethod
     def verify_hash(password, hash_):
         return sha256.verify(password, hash_)
-
-
-class Role(db.Model):
-    id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String(45), unique=True)
-
-    @classmethod
-    def find_by_name(cls, name):
-        return cls.query.filter_by(name=name).first()
-
-
-class UserRoles(db.Model):
-    id = db.Column(db.Integer(), primary_key=True)
-    user_id = db.Column(db.Integer(), db.ForeignKey('user.id', ondelete='CASCADE'))
-    role_id = db.Column(db.Integer(), db.ForeignKey('role.id', ondelete='CASCADE'))
-
-
-class RevokedTokens(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    jti = db.Column(db.String(120))
-
-    def add(self):
-        db.session.add(self)
-        db.session.commit()
-
-    @classmethod
-    def is_jti_blacklisted(cls, jti):
-        return bool(cls.query.filter_by(jti=jti).first())
-
-
-class Subscription(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    start = db.Column(db.DateTime, nullable=False)
-    end = db.Column(db.DateTime, nullable=False)
-    user_id = db.Column(db.Integer(), db.ForeignKey('user.id', ondelete='CASCADE'))
-    subscription_type_id = db.Column(db.Integer(), db.ForeignKey('subscription_type.id', ondelete='CASCADE'))
-    def add(self):
-        db.session.add(self)
-        db.session.commit()
-class Subscription_type(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), nullable=False)
-    session_count = db.Column(db.Integer, nullable=False)
-    duration = db.Column(db.Integer, nullable=False)
-    price = db.Column(db.Float, nullable=False)
-    course_id = db.Column(db.Integer(), db.ForeignKey('course.id', ondelete='CASCADE'))
-    def add(self):
-        db.session.add(self)
-        db.session.commit()

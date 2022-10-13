@@ -21,7 +21,7 @@ db = SQLAlchemy(app)
 jwt = JWTManager(app)
 
 import src.resources
-import src.models
+from src.model.revoked_tokens import RevokedTokens
 
 
 @app.before_request
@@ -33,4 +33,4 @@ def create_tables():
 def check_if_token_in_blocklist(header, decrypted_token):
     jti = decrypted_token['jti']
 
-    return src.models.RevokedTokens.is_jti_blacklisted(jti)
+    return RevokedTokens.is_jti_blacklisted(jti)
