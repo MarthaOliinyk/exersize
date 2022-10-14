@@ -20,7 +20,7 @@ db = SQLAlchemy(app)
 
 jwt = JWTManager(app)
 
-import src.resources
+import src.resourse
 from src.model.revoked_tokens import RevokedTokens
 
 

@@ -1,4 +1,4 @@
-from app import db
+from src.app import db
 
 
 class SubscriptionType(db.Model):
@@ -12,6 +12,14 @@ class SubscriptionType(db.Model):
     def save_to_db(self):
         db.session.add(self)
         db.session.commit()
+
+    def return_one(self):
+        return {
+            'name': self.name,
+            'session_count': self.session_count,
+            'duration': self.duration,
+            'price': self.price,
+        }
 
     @classmethod
     def return_all(cls):

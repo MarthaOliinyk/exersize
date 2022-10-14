@@ -1,11 +1,8 @@
-from app import app
+from src.app import app
 from flask_restful import reqparse
-from src.model.course import Course
 from src.model.revoked_tokens import RevokedTokens
 from src.model.role import Role
-from src.model.subscription_type import SubscriptionType
 from src.model.user import User
-from .utils import admin_required, coach_required
 
 from flask_jwt_extended import (
     create_access_token,
@@ -159,84 +156,3 @@ def refresh():
     access_token = create_access_token(identity=current_user)
 
     return {'access_token': access_token}
-
-
-@app.route('/users', methods=['GET'])
-@jwt_required()
-@admin_required
-def get_users():
-    return User.return_all()
-
-
-@app.route('/users/roles', methods=['GET'])
-@jwt_required()
-def get_user_roles():
-    current_user = get_jwt_identity()
-    user = User.find_by_username(current_user)
-
-    def to_json(role):
-        return {'role': role.name}
-
-    return {'roles': [to_json(role) for role in user.roles]}
-
-
-@app.route('/users', methods=['DELETE'])
-def delete_users():
-    return User.delete_all()
-
-
-@app.route('/courses', methods=['POST'])
-@jwt_required()
-@coach_required
-def course():
-    parser1 = reqparse.RequestParser()
-    parser1.add_argument('name', type=str, required=True, help='This field cannot be left blank')
-    parser1.add_argument('description', type=str, required=True, help='This field cannot be left blank')
-    parser1.add_argument('tag', type=str, required=True, help='This field cannot be left blank')
-    parser1.add_argument('sub_type', type=dict, action='append', required=True, help='This field cannot be left blank')
-    data = parser1.parse_args()
-
-    name = data['name']
-    description = data['description']
-    tag = data['tag']
-
-    current_user = get_jwt_identity()
-    user = User.find_by_username(current_user)
-
-    new_course = Course(
-        name=name,
-        description=description,
-        tag=tag
-    )
-    new_course.save_to_db()
-
-    user.courses.append(new_course)
-    user.save_to_db()
-
-    course_id = Course.get_id(name)
-
-    for s_type in data['sub_type']:
-        name = s_type['name']
-        session_count = s_type['count']
-        duration = int(s_type['duration'])
-        price = float(s_type['price'])
-        subscription_type = SubscriptionType(name=name, session_count=session_count, duration=duration,
-                                             price=price, course_id=course_id)
-        subscription_type.save_to_db()
-
-    return {'message': 'course and sub type have been created successfully.'}, 201
-
-
-@app.route('/courses', methods=['GET'])
-def get_courses():
-    return Course.return_all()
-
-
-@app.route('/courses', methods=['DELETE'])
-def delete_courses():
-    return Course.delete_all()
-
-
-@app.route('/stypes', methods=['GET'])
-def get_stypes():
-    return SubscriptionType.return_all()

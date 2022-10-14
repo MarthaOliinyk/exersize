@@ -1,5 +1,4 @@
-from app import db
-from flask import jsonify
+from src.app import db
 from passlib.hash import pbkdf2_sha256 as sha256
 from sqlalchemy import func
 from sqlalchemy import DateTime
@@ -13,11 +12,20 @@ class User(db.Model):
     fullname = db.Column(db.String(255), nullable=False)
     age = db.Column(db.Integer, nullable=False)
     registrationDate = db.Column(DateTime(timezone=True), server_default=func.now())
+    subscriptions = db.relationship('Subscription', backref='user', lazy=True)
     roles = db.relationship('Role', secondary='users_roles',
                             backref=db.backref('user', lazy='dynamic'))
-    subscriptions = db.relationship('Subscription', backref='user', lazy=True)
     courses = db.relationship('Course', secondary='users_courses',
                               backref=db.backref('user', lazy='dynamic'))
+
+    def to_json(self):
+        return {
+            'username': self.username,
+            'password': self.password,
+            'email': self.email,
+            'fullname': self.fullname,
+            'age': self.age
+        }
 
     def save_to_db(self):
         db.session.add(self)
@@ -32,36 +40,30 @@ class User(db.Model):
         return cls.query.filter_by(email=email).first()
 
     @classmethod
-    def find_by_id(cls, id):
-        return cls.query.filter_by(id=id).first()
+    def find_by_id(cls, userId):
+        return cls.query.filter_by(id=userId).first()
 
     @classmethod
-    def return_all(cls):
-
-        def to_json(x):
-            return {
-                'username': x.username,
-                'password': x.password,
-                'email': x.email,
-                'fullname': x.fullname,
-                'age': x.age
-            }
-
-        return {'users': [to_json(user) for user in User.query.all()]}
+    def get_all(cls):
+        return {'users': [cls.to_json(user) for user in User.query.all()]}
 
     @classmethod
-    def delete_all(cls):
+    def get_by_id(cls, userId):
         try:
-            num_rows_deleted = db.session.query(cls).delete()
+            user = User.query.filter_by(id=userId).first()
+            return cls.to_json(user)
+        except AttributeError:
+            return {'error': f'User with {userId} does not exist!'}, 404
+
+    @classmethod
+    def delete_by_id(cls, userId):
+        try:
+            user = cls.query.filter_by(id=userId).delete()
             db.session.commit()
 
-            return jsonify({
-                "message": f"{num_rows_deleted} row(s) deleted"
-            })
-        except:
-            return jsonify({
-                "message": "Something went wrong"
-            })
+            return {"message": f"User with id={userId} was successfully deleted"}
+        except AttributeError:
+            return {'error': f'User with {userId} does not exist!'}, 404
 
     @staticmethod
     def generate_hash(password):
