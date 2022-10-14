@@ -21,7 +21,6 @@ def add_course():
     parser.add_argument('description', type=str, required=True, help='This field cannot be left blank')
     parser.add_argument('tag', type=str, required=True, help='This field cannot be left blank')
     parser.add_argument('sub_type', type=dict, action='append', required=True, help='This field cannot be left blank')
-    parser.add_argument('schedules', type=dict, action='append', required=True, help='This field cannot be left blank')
     data = parser.parse_args()
 
     name = data['name']
@@ -52,15 +51,6 @@ def add_course():
                                              price=price, course_id=course_id)
         subscription_type.save_to_db()
 
-    for schedule in data['schedules']:
-        start = schedule['start']
-        end = schedule['end']
-        participants = int(schedule['participants'])
-
-        schedule1 = Schedule(start=start, end=end, participants=participants, course_id=course_id)
-        new_course.schedules.append(schedule1)
-        schedule1.save_to_db()
-
     return {'message': 'course and sub type have been created successfully.'}, 201
 
 
@@ -80,16 +70,6 @@ def get_subscription_type(courseId: int):
 
     if course_entity:
         return {"subscription_types": [subscription.return_one() for subscription in course_entity.subscription_types]}
-    else:
-        return {"message": "course not found"}
-
-
-@app.route("/schedule/<courseId>", methods=['GET'])
-def get_schedule(courseId: int):
-    course_entity = Course.query.get(courseId)
-
-    if course_entity:
-        return {"schedules": [schedule.return_one() for schedule in course_entity.schedules]}
     else:
         return {"message": "course not found"}
 
