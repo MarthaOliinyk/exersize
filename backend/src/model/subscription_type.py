@@ -13,6 +13,14 @@ class SubscriptionType(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def return_one(self):
+        return {
+            'name': self.name,
+            'session_count': self.session_count,
+            'duration': self.duration,
+            'price': self.price,
+        }
+
     @classmethod
     def return_all(cls):
         def to_json(x):

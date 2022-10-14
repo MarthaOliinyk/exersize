@@ -5,6 +5,7 @@ from src.model.revoked_tokens import RevokedTokens
 from src.model.role import Role
 from src.model.subscription_type import SubscriptionType
 from src.model.user import User
+from src.model.schedule import Schedule
 from .utils import admin_required, coach_required
 
 from flask_jwt_extended import (
@@ -49,19 +50,16 @@ def register():
 
     new_user.roles.append(role)
 
-    try:
-        new_user.save_to_db()
+    new_user.save_to_db()
 
-        access_token = create_access_token(identity=username)
-        refresh_token = create_refresh_token(identity=username)
+    access_token = create_access_token(identity=username)
+    refresh_token = create_refresh_token(identity=username)
 
-        return {
-            'message': f'User {username} was created',
-            'access_token': access_token,
-            'refresh_token': refresh_token
-        }
-    except:
-        return {'message': 'Something went wrong'}, 500
+    return {
+        'message': f'User {username} was created',
+        'access_token': access_token,
+        'refresh_token': refresh_token
+    }
 
 
 @app.route('/login', methods=['POST'])
@@ -194,6 +192,7 @@ def course():
     parser1.add_argument('description', type=str, required=True, help='This field cannot be left blank')
     parser1.add_argument('tag', type=str, required=True, help='This field cannot be left blank')
     parser1.add_argument('sub_type', type=dict, action='append', required=True, help='This field cannot be left blank')
+    parser1.add_argument('schedules', type=dict, action='append', required=True, help='This field cannot be left blank')
     data = parser1.parse_args()
 
     name = data['name']
@@ -224,6 +223,15 @@ def course():
                                              price=price, course_id=course_id)
         subscription_type.save_to_db()
 
+    for schedule in data['schedules']:
+        start = schedule['start']
+        end = schedule['end']
+        participants = int(schedule['participants'])
+
+        schedule1 = Schedule(start=start, end=end, participants=participants, course_id=course_id)
+        new_course.schedules.append(schedule1)
+        schedule1.save_to_db()
+
     return {'message': 'course and sub type have been created successfully.'}, 201
 
 
@@ -240,3 +248,29 @@ def delete_courses():
 @app.route('/stypes', methods=['GET'])
 def get_stypes():
     return SubscriptionType.return_all()
+
+
+@app.route("/schedule", methods=['GET'])
+def get_schedule():
+    parser = reqparse.RequestParser()
+    parser.add_argument("courseid", type=int, required=True, help="This field cannot be left blank")
+    data = parser.parse_args()
+    course = Course.query.get(int(data["courseid"]))
+
+    if course:
+        return {"schedules": [schedule.return_one() for schedule in course.schedules]}
+    else:
+        return {"message": "course not found"}
+
+
+@app.route("/subscription_type", methods=['GET'])
+def get_subscription_type():
+    parser = reqparse.RequestParser()
+    parser.add_argument("courseid", type=int, required=True, help="This field cannot be left blank")
+    data = parser.parse_args()
+    course = Course.query.get(int(data["courseid"]))
+
+    if course:
+        return {"subscription_types": [subscription.return_one() for subscription in course.subscription_types]}
+    else:
+        return {"message": "course not found"}

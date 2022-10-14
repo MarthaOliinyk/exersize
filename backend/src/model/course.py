@@ -7,8 +7,9 @@ class Course(db.Model):
     name = db.Column(db.String(45))
     description = db.Column(db.String(200))
     tag = db.Column(db.String(45))
-    subscription_type = db.relationship('SubscriptionType', backref='course', lazy=True)
+    subscription_types = db.relationship('SubscriptionType', backref='course', lazy=True)
     users = db.relationship('User', secondary='users_courses', viewonly=True)
+    schedules = db.relationship('Schedule', backref='course', lazy=True)
 
     def save_to_db(self):
         db.session.add(self)
