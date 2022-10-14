@@ -28,16 +28,3 @@ def coach_required(f):
         return "You are not a coach!", 403
 
     return wrap
-
-
-def user_required(f):
-    @wraps(f)
-    def wrap(*args, **kwargs):
-        current_user = get_jwt_identity()
-        user = User.find_by_username(current_user)
-        for role in user.roles:
-            if "user" == role.name:
-                return f(*args, **kwargs)
-        return "You need to login or register!", 403
-
-    return wrap

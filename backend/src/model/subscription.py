@@ -1,4 +1,4 @@
-from app import db
+from src.app import db
 
 
 class Subscription(db.Model):
