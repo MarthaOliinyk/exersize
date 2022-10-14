@@ -50,16 +50,19 @@ def register():
 
     new_user.roles.append(role)
 
-    new_user.save_to_db()
+    try:
+        new_user.save_to_db()
 
-    access_token = create_access_token(identity=username)
-    refresh_token = create_refresh_token(identity=username)
+        access_token = create_access_token(identity=username)
+        refresh_token = create_refresh_token(identity=username)
 
-    return {
-        'message': f'User {username} was created',
-        'access_token': access_token,
-        'refresh_token': refresh_token
-    }
+        return {
+            'message': f'User {username} was created',
+            'access_token': access_token,
+            'refresh_token': refresh_token
+        }
+    except:
+        return {'message': 'Something went wrong'}, 500
 
 
 @app.route('/login', methods=['POST'])
