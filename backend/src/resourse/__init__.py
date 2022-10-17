@@ -14,7 +14,16 @@ from src.resourse.roles import get_user_roles
 from src.resourse.courses import add_course
 from src.resourse.courses import get_courses
 from src.resourse.courses import delete_courses
-from src.resourse.courses import get_subscription_type
-from src.resourse.schedules import get_schedule
+
+from src.resourse.subscription_types import get_subscription_type_by_courseid
+from src.resourse.subscription_types import get_subscription_type_by_id
+from src.resourse.subscription_types import get_subscription_type_by_id
+from src.resourse.subscription_types import delete_subscription_type_by_id
+from src.resourse.subscription_types import update_subscription_type
+
 from src.resourse.schedules import add_schedule
-from src.resourse.courses import get_subscription_types
+from src.resourse.schedules import get_schedule_by_courseid
+from src.resourse.schedules import get_schedule_by_id
+from src.resourse.schedules import get_schedules
+from src.resourse.schedules import delete_schedule_by_id
+from src.resourse.schedules import update_schedule

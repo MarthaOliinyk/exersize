@@ -15,6 +15,7 @@ class SubscriptionType(db.Model):
 
     def return_one(self):
         return {
+            'id': self.id,
             'name': self.name,
             'session_count': self.session_count,
             'duration': self.duration,
@@ -25,6 +26,7 @@ class SubscriptionType(db.Model):
     def return_all(cls):
         def to_json(x):
             return {
+                'id': x.id,
                 'name': x.name,
                 'session_count': x.session_count,
                 'duration': x.duration,
@@ -33,3 +35,21 @@ class SubscriptionType(db.Model):
             }
 
         return {'subscription_types': [to_json(s_type) for s_type in SubscriptionType.query.all()]}
+
+    @classmethod
+    def get_by_id(cls, sub_typeId):
+        try:
+            sub_type = cls.query.get(sub_typeId)
+            return sub_type.return_one()
+        except:
+            return {'error': f'Subscription type with id={sub_typeId} does not exist!'}, 404
+
+    @classmethod
+    def delete_by_id(cls, sub_typeId):
+        if cls.query.get(sub_typeId):
+            cls.query.filter_by(id=sub_typeId).delete()
+            db.session.commit()
+
+            return {"message": f"Subscription type with id={sub_typeId} was successfully deleted"}
+        else:
+            return {'error': f'Subscription type with id={sub_typeId} does not exist!'}, 404

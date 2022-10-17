@@ -3,8 +3,14 @@ from src.app import app
 from src.model.course import Course
 from src.model.schedule import Schedule
 
+from src.utils import coach_required
+
+from flask_jwt_extended import jwt_required
+
 
 @app.route("/schedule", methods=['POST'])
+@jwt_required()
+@coach_required
 def add_schedule():
     parser = reqparse.RequestParser()
     parser.add_argument('courseid', type=int, required=True, help='This field cannot be left blank')
@@ -26,11 +32,57 @@ def add_schedule():
     return {'message': 'schedules have been created successfully.'}
 
 
-@app.route("/schedule/<courseId>", methods=['GET'])
-def get_schedule(courseId: int):
+@app.route("/schedule/course/<courseId>", methods=['GET'])
+def get_schedule_by_courseid(courseId: int):
     course_entity = Course.query.get(courseId)
 
     if course_entity:
         return {"schedules": [schedule.return_one() for schedule in course_entity.schedules]}
     else:
         return {"message": "course not found"}
+
+
+@app.route('/schedule', methods=['GET'])
+@jwt_required()
+def get_schedules():
+    return Schedule.return_all()
+
+
+@app.route("/schedule/<scheduleId>", methods=['GET'])
+@jwt_required()
+def get_schedule_by_id(scheduleId: int):
+    return Schedule.get_by_id(scheduleId)
+
+
+@app.route("/schedule/<scheduleId>", methods=['DELETE'])
+@jwt_required()
+@coach_required
+def delete_schedule_by_id(scheduleId: int):
+    return Schedule.delete_by_id(scheduleId)
+
+
+@app.route("/schedule", methods=['PUT'])
+@jwt_required()
+@coach_required
+def update_schedule():
+    parser = reqparse.RequestParser()
+    parser.add_argument('id', type=int, required=True, help='This field cannot be left blank')
+    parser.add_argument('start', required=True, help='This field cannot be left blank')
+    parser.add_argument('end', required=True, help='This field cannot be left blank')
+    parser.add_argument('participants', type=int, required=True, help='This field cannot be left blank')
+    parser.add_argument('courseid', type=int, required=True, help='This field cannot be left blank')
+    data = parser.parse_args()
+
+    scheduleId = data["id"]
+    schedule_entity = Schedule.query.get(scheduleId)
+
+    if schedule_entity:
+        schedule_entity.start = data["start"]
+        schedule_entity.end = data["end"]
+        schedule_entity.participants = data["participants"]
+        schedule_entity.course_id = data["courseid"]
+        schedule_entity.save_to_db()
+
+        return {'message': 'Schedule have been updated successfully.'}
+    else:
+        return {'error': f'Schedule with id={scheduleId} does not exist!'}, 404
