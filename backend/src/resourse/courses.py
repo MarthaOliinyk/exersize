@@ -62,18 +62,3 @@ def get_courses():
 @app.route('/courses', methods=['DELETE'])
 def delete_courses():
     return Course.delete_all()
-
-
-@app.route("/subscriptions/types/<courseId>", methods=['GET'])
-def get_subscription_type(courseId: int):
-    course_entity = Course.query.get(courseId)
-
-    if course_entity:
-        return {"subscription_types": [subscription.return_one() for subscription in course_entity.subscription_types]}
-    else:
-        return {"message": "course not found"}
-
-
-@app.route('/subscriptions/types', methods=['GET'])
-def get_subscription_types():
-    return SubscriptionType.return_all()
