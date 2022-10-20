@@ -3,7 +3,6 @@ from flask_restful import reqparse
 from src.model.course import Course
 from src.model.subscription_type import SubscriptionType
 from src.model.user import User
-from src.model.schedule import Schedule
 from src.utils import coach_required
 
 from flask_jwt_extended import (
@@ -55,10 +54,35 @@ def add_course():
 
 
 @app.route('/courses', methods=['GET'])
-def get_courses():
+@jwt_required()
+def get_all_courses():
     return Course.return_all()
 
 
-@app.route('/courses', methods=['DELETE'])
-def delete_courses():
-    return Course.delete_all()
+@app.route('/courses/<course_id>', methods=['GET'])
+@jwt_required()
+def get_course_by_name(course_id: int):
+    return Course.return_one(course_id)
+
+
+@app.route('/courses/<course_id>', methods=['DELETE'])
+@jwt_required()
+@coach_required
+def delete_course(course_id: int):
+    try:
+        Course.delete_by_id(course_id)
+        return {'message': 'Course and subscriptions were deleted'}
+    except:
+        return {'message': 'Something went wrong'}, 500
+
+
+@app.route('/courses/<course_id>', methods=['PUT'])
+@jwt_required()
+@coach_required
+def update_course(course_id: int):
+    parser = reqparse.RequestParser()
+    parser.add_argument('name', type=str, required=True, help='This field cannot be left blank')
+    parser.add_argument('description', type=str, required=True, help='This field cannot be left blank')
+    parser.add_argument('tag', type=str, required=True, help='This field cannot be left blank')
+    data = parser.parse_args()
+    return Course.update_by_id(course_id, data)
