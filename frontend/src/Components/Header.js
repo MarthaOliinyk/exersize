@@ -1,9 +1,13 @@
 import React, { Component }  from 'react';
-import { Container,Navbar, NavDropdown, Form, FormControl, Button, Nav } from 'react-bootstrap'
+import { useState } from 'react';
+import { Container,Navbar, NavDropdown, Form, FormControl, Button, Nav, Modal, NavLink } from 'react-bootstrap'
 import Anchor from 'react-bootstrap';
 import logo from "../images/logo-small.png"
+import { TextField, Dialog, DialogActions, DialogTitle, DialogContent, DialogContentText } from '@mui/material'
+import LogIn from './LogIn';
 //import "../../scss/header.css"
 function BasicExample() {
+
   return (
     <Navbar bg="white" expand="md" fixed="top" >
       <div className='container main__container'>
@@ -15,9 +19,7 @@ function BasicExample() {
             <Nav.Link href='/create' >Create</Nav.Link>
             <Nav.Link href='/courses' >Courses</Nav.Link>
           </Nav>
-          <Button  className="btn" >
-          Sign up
-        </Button>
+          <LogIn/>
         </Navbar.Collapse>
       </div>
     </Navbar>
