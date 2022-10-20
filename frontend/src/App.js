@@ -8,6 +8,7 @@ import Footer from "./Components/Footer"
 import Gallery from "./Components/Gallery";
 import React, { Component }  from 'react';
 import "../src/App.scss"
+
 function App() {
   return (
     <div className="App">
