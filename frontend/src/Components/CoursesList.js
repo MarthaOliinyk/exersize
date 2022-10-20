@@ -92,60 +92,79 @@ export default function CourseList()
             const markup= data.map(item=>
                 {
                     return `<li class="courses__item">
-                    <p class="courses__line courses__line--name">${item.course_name}</p>
+                    <p class="courses__line courses__line--name">
+                    ${item.course_name}
+                  </p>
                     <p class="courses__line"><b class="courses__title">Category : </b>${item.type}</p>
                     <p class="courses__line"><b class="courses__title">Description : </b>${item.desc} <span id="dots">...</span></p>
                     <div class="more">
                         <h2 class="courses__subs">Subscriptions</h2>
                         ${(item.subs_type).map(one=> {
+                          
                             return `
                             <div class="courses__subscription">
-                            <p class="courses__line courses__line--big ">${one.subs_name} </p>
+                            <p class="courses__line courses__line--big ">
+                            <input id="${item.course_name}_${one.subs_name}" class="custom-checkbox" type="radio" data-course="${item.course_name}" name="subs" value="${one.subs_name}" />
+                            <label for="${item.course_name}_${one.subs_name}">
+                            
+                            ${one.subs_name}
+                          </label> </p>
                             <p class="courses__line"><b class="courses__title">Classes number : </b>${one.classes_number} </p>
                             <p class="courses__line"><b class="courses__title">Duration : </b>${one.duration} </p>
-                            <p class="courses__line"><b class="courses__title">Price : </b>${one.price} </p>
+                            <p class="courses__line"><b class="courses__title">Price : </b>${one.price}₴ </p>
                             </div>
                             `
                         }).join("")}
                         </div>
                         <div class="courses__buttons">
                         <Button class=" courses__btn courses__btn--more "  >Read more</Button>
-                        <Button class=" courses__btn courses__btn--subs ">Subscribe</Button>
+                        <Button disabled class=" courses__btn courses__btn--subs ">Subscribe</Button>
                         </div>
                         </li>
                        
                     `
                    
                 }).join("");
+                
                 list.innerHTML=markup 
         
           }
           createMarkup(data)
           const btnMore=document.querySelectorAll(".courses__btn--more")
+          const btnSunbscribe=document.querySelectorAll(".courses__btn--subs")
           const dots=document.querySelectorAll("#dots")
           const more=document.querySelectorAll(".more")
-        console.log(btnMore)
         for (let i = 0; i < btnMore.length; i++) {
             btnMore[i].addEventListener("click",()=>{
-                console.log("h")
-                console.log(i)
-                
                 if(dots[i].style.display==="none")
                 {
-                    console.log("a")
-                    
                  dots[i].style.display="inline";
                  more[i].style.display="none";
                  btnMore[i].innerHTML="Read more"
                 }
                 else{
-                    console.log("b")
                     dots[i].style.display="none"
                     more[i].style.display="inline";
                     btnMore[i].innerHTML="Hide"
                 }
             });
             };
+
+            for (let i = 0; i < btnSunbscribe.length; i++) {
+              const checkbox=document.querySelectorAll(".custom-checkbox")
+              for(let j=0;j<checkbox.length;j++)
+              {
+                checkbox[j].addEventListener("click",()=>btnSunbscribe[i].removeAttribute("disabled"))
+              }
+              
+              const selectedType={}
+              btnSunbscribe[i].addEventListener("click",()=>{
+                const selected=document.querySelector("input:checked")
+                  selectedType["type"]=selected.value;
+                  selectedType["course_name"]=selected.dataset.course;
+                  console.log(selectedType)
+              });
+              };
         
 
         })
