@@ -1,0 +1,57 @@
+.addcourse__container{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-top: 80px;
+}.addcourse__title{
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 80px;
+line-height: 90px;
+text-align: center;
+}
+.form__label{
+    margin-bottom: 10px;
+    font-family: 'Raleway';
+font-style: normal;
+font-weight: 400;
+font-size: 22px;
+line-height: 24px;
+color: #222222;
+
+
+}
+.form__input{
+    width: 100%;
+    height: 30px;
+    
+}
+.form__textarea{
+    resize: none;
+    width: 100%;
+    height: 254px;
+}
+.form__select{
+    display: block;
+    height: 30px;
+}
+.form__field{
+    margin-bottom: 20px;
+}
+.addcourse__option{
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 60px;
+    line-height: 90px;
+    text-align: center;
+}
+.form__buttons{
+display: flex;
+justify-content: center;
+}
+.addcourse__create{
+    background-color: var(--accent-color2);
+    border: none;
+    margin-left: 20px;
+}

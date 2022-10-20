@@ -32,25 +32,25 @@ export default function GallerryMarkup()
             <div className="gallery__middle">
             <ul className="gallery__links">
                     <li className="gallery__link">
-                        <svg class="gallery__svg">
+                        <svg className="gallery__svg">
                             <use href={sprite + "#icon-facebook"}></use>
                         </svg>
                         <p className='gallery__social'>@exersize</p>
                     </li>
                     <li className="gallery__link">
-                        <svg class="gallery__svg">
+                        <svg className="gallery__svg">
                             <use href={sprite + "#icon-instagram"}></use>
                         </svg>
                         <p className='gallery__social'>@exersize</p>
                     </li>
                     <li className="gallery__link">
-                        <svg class="gallery__svg">
+                        <svg className="gallery__svg">
                             <use href={sprite + "#icon-telegram"}></use>
                         </svg>
                         <p className='gallery__social'>ExerSize</p>
                     </li>
                     <li className="gallery__link">
-                        <svg class="gallery__svg">
+                        <svg className="gallery__svg">
                             <use href={sprite + "#icon-twitter"}></use>
                         </svg>
                         <p className='gallery__social'>ExerSize</p>

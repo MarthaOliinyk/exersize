@@ -1,13 +1,11 @@
 import React, { Component }  from 'react';
 import { Container } from 'react-bootstrap';
 import { Button} from 'react-bootstrap'
-// import  "../css/why.css"
-//import "../../scss/why.css"
 
 export default function WhyMarkup()
 {
     return(
-       <section id="why" className="main__container why__container">
+       <section  className="main__container why__container">
         <div className="why__left_part">
             <div className="why__sq">
                 <h3 className="why__number">20+</h3>

@@ -14,10 +14,10 @@ function BasicExample() {
         <Navbar.Brand href="#home"><img src={logo} alt="Logo" width="140px"></img></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="header__nav" allignitems="center" justifycontent="center">
-            <Nav.Link href="#hero" >About</Nav.Link>
-            <Nav.Link href="#why" >Classes</Nav.Link>
-            <Nav.Link href="#link" >Subscription plans</Nav.Link>
+          <Nav className="header__nav">
+            <Nav.Link href='/' >About</Nav.Link>
+            <Nav.Link href='/create' >Create</Nav.Link>
+            <Nav.Link href='/courses' >Courses</Nav.Link>
           </Nav>
           <LogIn/>
         </Navbar.Collapse>
@@ -27,4 +27,3 @@ function BasicExample() {
 }
 
 export default BasicExample;
-
