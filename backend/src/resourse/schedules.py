@@ -19,17 +19,19 @@ def add_schedule():
 
     courseId = data["courseid"]
     course_entity = Course.query.get(courseId)
+    if course_entity:
+        for schedule in data['schedules']:
+            start = schedule['start']
+            end = schedule['end']
+            participants = int(schedule['participants'])
 
-    for schedule in data['schedules']:
-        start = schedule['start']
-        end = schedule['end']
-        participants = int(schedule['participants'])
+            schedule_entity = Schedule(start=start, end=end, participants=participants, course_id=courseId)
+            course_entity.schedules.append(schedule_entity)
+            schedule_entity.save_to_db()
 
-        schedule_entity = Schedule(start=start, end=end, participants=participants, course_id=courseId)
-        course_entity.schedules.append(schedule_entity)
-        schedule_entity.save_to_db()
-
-    return {'message': 'schedules have been created successfully.'}
+        return {'message': 'schedules have been created successfully.'}
+    else:
+        return {'message': 'course not found.'}
 
 
 @app.route("/schedule/course/<courseId>", methods=['GET'])

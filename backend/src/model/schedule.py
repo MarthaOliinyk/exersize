@@ -17,7 +17,8 @@ class Schedule(db.Model):
             'id': self.id,
             'start': self.start,
             'end': self.end,
-            'participants': self.participants
+            'participants': self.participants,
+            'course_id': self.course_id
         }
 
     @classmethod
@@ -27,7 +28,8 @@ class Schedule(db.Model):
                 'id': x.id,
                 'start': x.start,
                 'end': x.end,
-                'participants': x.participants
+                'participants': x.participants,
+                'course_id': x.course_id
             }
 
         return {'schedules': [to_json(schedule) for schedule in Schedule.query.all()]}
