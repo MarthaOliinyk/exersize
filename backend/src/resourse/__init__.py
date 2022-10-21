@@ -27,3 +27,8 @@ from src.resourse.schedules import get_schedule_by_id
 from src.resourse.schedules import get_schedules
 from src.resourse.schedules import delete_schedule_by_id
 from src.resourse.schedules import update_schedule
+
+from src.resourse.subscriptions import add_subscription
+from src.resourse.subscriptions import get_subscription_by_id
+from src.resourse.subscriptions import get_subscriptions_by_userid
+from src.resourse.subscriptions import delete_subscription_by_id
