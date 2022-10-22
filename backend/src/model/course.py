@@ -44,11 +44,11 @@ class Course(db.Model):
             db.session.commit()
 
             return jsonify({
-                "message": f"course {course_id} deleted"
+                'message': f'course {course_id} deleted'
             })
         except:
             return jsonify({
-                "message": "Something went wrong"
+                'message': 'Something went wrong'
             })
 
     @classmethod
@@ -64,9 +64,9 @@ class Course(db.Model):
             sub_type.tag = data['tag']
             db.session.commit()
             return jsonify({
-                "message": f"course {course_id} updated"
+                'message': f'course {course_id} updated'
             })
         except:
             return jsonify({
-                "message": "Something went wrong"
+                'message': 'Something went wrong'
             })

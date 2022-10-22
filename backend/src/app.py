@@ -1,6 +1,8 @@
 from os import getenv
-from dotenv import load_dotenv
 from flask import Flask
+from datetime import timedelta
+from dotenv import load_dotenv
+from flask_restful import reqparse
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 
@@ -12,9 +14,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.config['SECRET_KEY'] = getenv('SECRET_KEY')
 
+app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 app.config['JWT_SECRET_KEY'] = getenv('JWT_SECRET_KEY')
 app.config['JWT_BLACKLIST_ENABLED'] = True
-app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 
 db = SQLAlchemy(app)
 
@@ -27,6 +30,17 @@ from src.model.revoked_tokens import RevokedTokens
 @app.before_request
 def create_tables():
     db.create_all()
+
+
+@app.route('/')
+def home():
+    user_agent = reqparse.request.headers.get('User-Agent')
+    ip = reqparse.request.environ['REMOTE_ADDR']
+
+    return {
+        'user_agent': user_agent,
+        'ip': ip
+    }
 
 
 @jwt.token_in_blocklist_loader

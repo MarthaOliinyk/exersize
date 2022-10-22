@@ -48,6 +48,6 @@ class Schedule(db.Model):
             cls.query.filter_by(id=scheduleId).delete()
             db.session.commit()
 
-            return {"message": f"Schedule with id={scheduleId} was successfully deleted"}
+            return {'message': f'Schedule with id={scheduleId} was successfully deleted'}
         else:
             return {'error': f'Schedule with id={scheduleId} does not exist!'}, 404
