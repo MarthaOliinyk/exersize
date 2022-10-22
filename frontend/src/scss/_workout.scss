@@ -1,112 +1,119 @@
-.workout__container{
-    padding: 90px 35px 90px 35px;
+.workout__container {
+  padding: 90px 35px 90px 35px;
 }
-.workout__title{
-    text-align: center;
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    color: #FBFBFF;
-    @media screen and (max-width:767.99px) {
-            font-size: 35px;
-            margin-bottom: 30px;
-    }
-    @media screen and (min-width:768px) {
-        margin-bottom: 70px;
-    }
-    @media screen and (min-width:1200px) {
-        font-size: 70px;
-        line-height: 99px;
-    }
+
+.workout__title {
+  text-align: center;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  color: #FBFBFF;
+  @media screen and (max-width: 767.99px) {
+    font-size: 35px;
+    margin-bottom: 30px;
+  }
+  @media screen and (min-width: 768px) {
+    margin-bottom: 70px;
+  }
+  @media screen and (min-width: 1200px) {
+    font-size: 70px;
+    line-height: 99px;
+  }
 }
-.workout__wrapper{
-    background-image: url(../images/workout__background.jpg);
-    width: 100%;
+
+.workout__wrapper {
+  background-image: url(../images/workout__background.jpg);
+  width: 100%;
 }
-.workout__list{
-    justify-content: center;
-    @media screen and (min-width:768px) {
-        display: flex;
-        flex-wrap: wrap; 
-        margin: -20px;
-    }
+
+.workout__list {
+  justify-content: center;
+  @media screen and (min-width: 768px) {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -20px;
+  }
 }
-.workout__item{
-    align-items: center;
-    justify-content: center;
-    display: block;
-    margin: 0 auto;
-    @media screen and (max-width:767.99px) {
-        width: 200px;
-        
-        &:not(:last-child)
-        {
-            margin-bottom: 40px;
-        }
+
+.workout__item {
+  align-items: center;
+  justify-content: center;
+  display: block;
+  margin: 0 auto;
+  @media screen and (max-width: 767.99px) {
+    width: 200px;
+
+    &:not(:last-child) {
+      margin-bottom: 40px;
     }
-    @media screen and (min-width:768px) {
-      width: 270px;
-      margin: 20px;
+  }
+  @media screen and (min-width: 768px) {
+    width: 270px;
+    margin: 20px;
+  }
+  @media screen and (min-width: 1200px) {
+    margin: 0;
+    width: 270px;
+    &:not(:last-child) {
+      margin-right: 15px;
     }
-    @media screen and (min-width:1200px) {
-        margin: 0;
-        width: 270px;
-        &:not(:last-child)
-     {
-        margin-right: 15px;
-    }
-    }
+  }
 
 }
-.workout__img{
-    @media screen and (max-width:767.99px) {
-        width: 200px;
-    }
-    @media screen and (min-width:768px) {
-      width: 270px;
-    }
-    @media screen and (min-width:1200px) {
-        width: 270px;
-    }
+
+.workout__img {
+  @media screen and (max-width: 767.99px) {
+    width: 200px;
+  }
+  @media screen and (min-width: 768px) {
+    width: 270px;
+  }
+  @media screen and (min-width: 1200px) {
+    width: 270px;
+  }
 }
-.workout__content{
-    padding: 30px;
-    background-color: #FBFBFF;
+
+.workout__content {
+  padding: 30px;
+  background-color: #FBFBFF;
 }
-.workout__time{
-    margin-bottom: 14px;
-    font-family: 'Red Hat Display';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 10px;
-    line-height: 22px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+
+.workout__time {
+  margin-bottom: 14px;
+  font-family: 'Red Hat Display';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 22px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 
 
 }
-.workout__text{
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 28px;
-    letter-spacing: 0.5px;
-    
+
+.workout__text {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 28px;
+  letter-spacing: 0.5px;
+
 }
-.workout__button{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: var(--accent-color2);
-    border: none;
-    @media screen and (max-width:767.99px) {
-        margin-top: 50px;
-    }
-    @media screen and (min-width:768px) {
-      margin-top: 50px;
-    }
-    @media screen and (min-width:1200px) {
-        margin-top: 97px;
-    }
+
+.workout__button {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: var(--accent-color2);
+  border: none;
+  @media screen and (max-width: 767.99px) {
+    margin-top: 50px;
+  }
+  @media screen and (min-width: 768px) {
+    margin-top: 50px;
+  }
+  @media screen and (min-width: 1200px) {
+    margin-top: 97px;
+  }
 }
