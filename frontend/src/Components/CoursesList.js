@@ -87,6 +87,7 @@ export default function CourseList()
             "type": "yoga"
           }]
         const list=document.querySelector(".courses__list")
+        //cтворення курсів відповідно до запиту
           function createMarkup(data)
           {
             const markup= data.map(item=>
@@ -130,10 +131,14 @@ export default function CourseList()
         
           }
           createMarkup(data)
+
+
           const btnMore=document.querySelectorAll(".courses__btn--more")
           const btnSunbscribe=document.querySelectorAll(".courses__btn--subs")
           const dots=document.querySelectorAll("#dots")
           const more=document.querySelectorAll(".more")
+
+          //логіка кнопки 'Відкрити і скрити детальну інформацію'
         for (let i = 0; i < btnMore.length; i++) {
             btnMore[i].addEventListener("click",()=>{
                 if(dots[i].style.display==="none")
@@ -150,6 +155,7 @@ export default function CourseList()
             });
             };
 
+            //логіка обирання типу підписки, disabled кнопки і збирання даних
             for (let i = 0; i < btnSunbscribe.length; i++) {
               const checkbox=document.querySelectorAll(".custom-checkbox")
               for(let j=0;j<checkbox.length;j++)
@@ -165,12 +171,30 @@ export default function CourseList()
                   console.log(selectedType)
               });
               };
+
+              //логіка search
+              const searchForm=document.querySelector(".search")
+              const searchInput=document.querySelector(".input")
+              searchForm.addEventListener("submit",(evt)=>{
+                evt.preventDefault();
+                console.log(searchInput.value)
+                searchForm.reset();
+              });
+              //  function onSearchSubmit(event)
+              // {
+              //   event.stopImmediatePropagation();
+              //   event.preventDafault();
+              // }
         
 
         })
     
 return(<section className='main__container courses__container'>
 <h1 className='courses__header'>All courses</h1>
+<form action="" className="search">
+	<input type="search" name="" placeholder="Search" className="input" />
+	<input type="submit" name="" value="" className="submit" />
+</form>
 <ul className='courses__list'>
 </ul>
 
