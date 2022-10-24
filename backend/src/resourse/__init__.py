@@ -11,6 +11,7 @@ from src.resourse.courses import get_all_courses
 from src.resourse.courses import get_course_by_name
 from src.resourse.courses import delete_course
 from src.resourse.courses import update_course
+from src.resourse.courses import get_serched_courses
 
 from src.resourse.roles import get_user_roles
 

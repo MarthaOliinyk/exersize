@@ -86,3 +86,9 @@ def update_course(course_id: int):
     parser.add_argument('tag', type=str, required=True, help='This field cannot be left blank')
     data = parser.parse_args()
     return Course.update_by_id(course_id, data)
+
+
+@app.route('/courses/search/<text>', methods=['GET'])
+@jwt_required()
+def get_serched_courses(text: str):
+    return Course.search_courses(text)
