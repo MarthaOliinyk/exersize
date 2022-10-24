@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import sprite from "../sprite.svg";
 import pic1 from "../images/gallery1.jpg"
 import pic2 from "../images/gallery2.jpg"
@@ -9,10 +9,9 @@ import pic6 from "../images/gallery6.jpg"
 import pic7 from "../images/gallery7.jpg"
 import pic8 from "../images/gallery8.jpg"
 
-export default function GallerryMarkup()
-{
-    return(
-        <section >
+export default function GallerryMarkup() {
+    return (
+        <section>
             <div className="gallery__top">
                 <ul className="gallery__list">
                     <li className="gallery__item">
@@ -30,7 +29,7 @@ export default function GallerryMarkup()
                 </ul>
             </div>
             <div className="gallery__middle">
-            <ul className="gallery__links">
+                <ul className="gallery__links">
                     <li className="gallery__link">
                         <svg className="gallery__svg">
                             <use href={sprite + "#icon-facebook"}></use>
@@ -58,7 +57,7 @@ export default function GallerryMarkup()
                 </ul>
             </div>
             <div className="gallery__bottom">
-            <ul className="gallery__list">
+                <ul className="gallery__list">
                     <li className="gallery__item">
                         <img className="gallery__img img-fluid" src={pic4} alt="gallery"></img>
                     </li>

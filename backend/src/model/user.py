@@ -17,6 +17,8 @@ class User(db.Model):
                             backref=db.backref('user', lazy='dynamic'))
     courses = db.relationship('Course', secondary='users_courses',
                               backref=db.backref('user', lazy='dynamic'))
+    appointment = db.relationship('Appointment', secondary='users_appointments',
+                              backref=db.backref('user', lazy='dynamic'))
 
     def to_json(self):
         return {
@@ -61,7 +63,7 @@ class User(db.Model):
             user = cls.query.filter_by(id=userId).delete()
             db.session.commit()
 
-            return {"message": f"User with id={userId} was successfully deleted"}
+            return {'message': f'User with id={userId} was successfully deleted'}
         except AttributeError:
             return {'error': f'User with {userId} does not exist!'}, 404
 

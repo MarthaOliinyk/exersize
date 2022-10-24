@@ -8,7 +8,7 @@ from src.utils import coach_required
 from flask_jwt_extended import jwt_required
 
 
-@app.route("/schedule", methods=['POST'])
+@app.route('/schedule', methods=['POST'])
 @jwt_required()
 @coach_required
 def add_schedule():
@@ -17,29 +17,31 @@ def add_schedule():
     parser.add_argument('schedules', type=dict, action='append', required=True, help='This field cannot be left blank')
     data = parser.parse_args()
 
-    courseId = data["courseid"]
-    course_entity = Course.query.get(courseId)
+    course_id = data['courseid']
+    course_entity = Course.query.get(course_id)
+    if course_entity:
+        for schedule in data['schedules']:
+            start = schedule['start']
+            end = schedule['end']
+            participants = int(schedule['participants'])
 
-    for schedule in data['schedules']:
-        start = schedule['start']
-        end = schedule['end']
-        participants = int(schedule['participants'])
+            schedule_entity = Schedule(start=start, end=end, participants=participants, course_id=course_id)
+            course_entity.schedules.append(schedule_entity)
+            schedule_entity.save_to_db()
 
-        schedule_entity = Schedule(start=start, end=end, participants=participants, course_id=courseId)
-        course_entity.schedules.append(schedule_entity)
-        schedule_entity.save_to_db()
-
-    return {'message': 'schedules have been created successfully.'}
+        return {'message': 'schedules have been created successfully.'}
+    else:
+        return {'message': 'course not found.'}
 
 
-@app.route("/schedule/course/<courseId>", methods=['GET'])
-def get_schedule_by_courseid(courseId: int):
+@app.route('/schedule/course/<courseId>', methods=['GET'])
+def get_schedule_by_course_id(courseId: int):
     course_entity = Course.query.get(courseId)
 
     if course_entity:
-        return {"schedules": [schedule.return_one() for schedule in course_entity.schedules]}
+        return {'schedules': [schedule.return_one() for schedule in course_entity.schedules]}
     else:
-        return {"message": "course not found"}
+        return {'message': 'course not found'}
 
 
 @app.route('/schedule', methods=['GET'])
@@ -48,20 +50,20 @@ def get_schedules():
     return Schedule.return_all()
 
 
-@app.route("/schedule/<scheduleId>", methods=['GET'])
+@app.route('/schedule/<scheduleId>', methods=['GET'])
 @jwt_required()
 def get_schedule_by_id(scheduleId: int):
     return Schedule.get_by_id(scheduleId)
 
 
-@app.route("/schedule/<scheduleId>", methods=['DELETE'])
+@app.route('/schedule/<scheduleId>', methods=['DELETE'])
 @jwt_required()
 @coach_required
 def delete_schedule_by_id(scheduleId: int):
     return Schedule.delete_by_id(scheduleId)
 
 
-@app.route("/schedule", methods=['PUT'])
+@app.route('/schedule', methods=['PUT'])
 @jwt_required()
 @coach_required
 def update_schedule():
@@ -73,16 +75,16 @@ def update_schedule():
     parser.add_argument('courseid', type=int, required=True, help='This field cannot be left blank')
     data = parser.parse_args()
 
-    scheduleId = data["id"]
-    schedule_entity = Schedule.query.get(scheduleId)
+    schedule_id = data['id']
+    schedule_entity = Schedule.query.get(schedule_id)
 
     if schedule_entity:
-        schedule_entity.start = data["start"]
-        schedule_entity.end = data["end"]
-        schedule_entity.participants = data["participants"]
-        schedule_entity.course_id = data["courseid"]
+        schedule_entity.start = data['start']
+        schedule_entity.end = data['end']
+        schedule_entity.participants = data['participants']
+        schedule_entity.course_id = data['courseid']
         schedule_entity.save_to_db()
 
         return {'message': 'Schedule have been updated successfully.'}
     else:
-        return {'error': f'Schedule with id={scheduleId} does not exist!'}, 404
+        return {'error': f'Schedule with id={schedule_id} does not exist!'}, 404

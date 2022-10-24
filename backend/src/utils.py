@@ -10,9 +10,9 @@ def admin_required(f):
         current_user = get_jwt_identity()
         user = User.find_by_username(current_user)
         for role in user.roles:
-            if "admin" == role.name:
+            if 'admin' == role.name:
                 return f(*args, **kwargs)
-        return "No permission", 403
+        return {'error': 'You do not have permission to access this resource!'}, 403
 
     return wrap
 
@@ -23,8 +23,8 @@ def coach_required(f):
         current_user = get_jwt_identity()
         user = User.find_by_username(current_user)
         for role in user.roles:
-            if "coach" == role.name:
+            if 'coach' == role.name:
                 return f(*args, **kwargs)
-        return "You are not a coach!", 403
+        return {'error': 'You do not have permission to access this resource!'}, 403
 
     return wrap

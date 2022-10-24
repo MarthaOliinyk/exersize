@@ -7,6 +7,7 @@ class Schedule(db.Model):
     end = db.Column(db.DateTime, nullable=False)
     participants = db.Column(db.Integer, nullable=False)
     course_id = db.Column(db.Integer(), db.ForeignKey('course.id', ondelete='CASCADE'))
+    appointments = db.relationship('Appointment', backref='schedule', lazy=True)
 
     def save_to_db(self):
         db.session.add(self)
@@ -17,7 +18,8 @@ class Schedule(db.Model):
             'id': self.id,
             'start': self.start,
             'end': self.end,
-            'participants': self.participants
+            'participants': self.participants,
+            'course_id': self.course_id
         }
 
     @classmethod
@@ -27,7 +29,8 @@ class Schedule(db.Model):
                 'id': x.id,
                 'start': x.start,
                 'end': x.end,
-                'participants': x.participants
+                'participants': x.participants,
+                'course_id': x.course_id
             }
 
         return {'schedules': [to_json(schedule) for schedule in Schedule.query.all()]}
@@ -46,6 +49,6 @@ class Schedule(db.Model):
             cls.query.filter_by(id=scheduleId).delete()
             db.session.commit()
 
-            return {"message": f"Schedule with id={scheduleId} was successfully deleted"}
+            return {'message': f'Schedule with id={scheduleId} was successfully deleted'}
         else:
             return {'error': f'Schedule with id={scheduleId} does not exist!'}, 404
