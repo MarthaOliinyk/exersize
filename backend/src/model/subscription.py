@@ -37,6 +37,6 @@ class Subscription(db.Model):
             cls.query.filter_by(id=subId).delete()
             db.session.commit()
 
-            return {"message": f"Subscription with id={subId} was successfully deleted"}
+            return {'message': f'Subscription with id={subId} was successfully deleted'}
         else:
             return {'error': f'Subscription with id={subId} does not exist!'}, 404

@@ -73,7 +73,7 @@ def delete_course(course_id: int):
         Course.delete_by_id(course_id)
         return {'message': 'Course and subscriptions were deleted'}
     except:
-        return {'message': 'Something went wrong'}, 500
+        return {'error': 'Something went wrong'}, 500
 
 
 @app.route('/courses/<course_id>', methods=['PUT'])

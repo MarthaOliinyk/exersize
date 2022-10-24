@@ -1,3 +1,5 @@
+import sys
+from datetime import datetime, timezone, timedelta
 from src.app import app
 from flask_restful import reqparse
 from src.model.revoked_tokens import RevokedTokens
@@ -9,7 +11,8 @@ from flask_jwt_extended import (
     create_refresh_token,
     jwt_required,
     get_jwt_identity,
-    get_jwt
+    get_jwt,
+    set_access_cookies
 )
 
 
@@ -58,7 +61,7 @@ def register():
             'refresh_token': refresh_token
         }
     except:
-        return {'message': 'Something went wrong'}, 500
+        return {'error': f'{sys.exc_info()[0]}'}, 500
 
 
 @app.route('/login', methods=['POST'])
@@ -86,7 +89,7 @@ def login():
             'refresh_token': refresh_token
         }
     else:
-        return {'message': "Wrong credentials"}, 401
+        return {'error': 'Wrong credentials'}, 401
 
 
 @app.route('/logout', methods=['POST'])
@@ -100,7 +103,7 @@ def logout():
 
         return {'message': 'Access token has been revoked'}
     except:
-        return {'message': 'Something went wrong'}, 500
+        return {'error': f'{sys.exc_info()[0]}'}, 500
 
 
 @app.route('/users/password', methods=['PUT'])
@@ -121,18 +124,32 @@ def change_password():
     confirm_password = data['confirm_password']
 
     if not User.verify_hash(old_password, user.password):
-        return {'message': 'Old password is invalid'}, 400
+        return {'error': 'Old password is invalid'}, 400
 
     if new_password != confirm_password:
-        return {'message': 'New password doesn\'t match'}, 400
+        return {'error': 'New password doesn\'t match'}, 400
 
     if old_password == new_password:
-        return {'message': 'New password is the same'}, 400
+        return {'error': 'New password is the same'}, 400
 
     user.password = User.generate_hash(new_password)
     user.save_to_db()
 
     return {'message': 'password was changed'}, 200
+
+
+@app.after_request
+def refresh_expiring_jwts(response):
+    try:
+        exp_timestamp = get_jwt()['exp']
+        now = datetime.now(timezone.utc)
+        target_timestamp = datetime.timestamp(now + timedelta(minutes=30))
+        if target_timestamp > exp_timestamp:
+            access_token = create_access_token(identity=get_jwt_identity())
+            set_access_cookies(response, access_token)
+        return response
+    except (RuntimeError, KeyError):
+        return response
 
 
 @app.route('/logout/refresh', methods=['POST'])
@@ -146,7 +163,7 @@ def logout_refresh():
 
         return {'message': 'Refresh token has been revoked'}
     except:
-        return {'message': 'Something went wrong'}, 500
+        return {'error': f'{sys.exc_info()[0]}'}, 500
 
 
 @app.route('/token/refresh', methods=['POST'])

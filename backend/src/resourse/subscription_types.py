@@ -8,14 +8,14 @@ from src.utils import coach_required
 from flask_jwt_extended import jwt_required
 
 
-@app.route("/subscriptions/types/course/<courseId>", methods=['GET'])
+@app.route('/subscriptions/types/course/<courseId>', methods=['GET'])
 def get_subscription_type_by_courseid(courseId: int):
     course_entity = Course.query.get(courseId)
 
     if course_entity:
-        return {"subscription_types": [subscription.return_one() for subscription in course_entity.subscription_types]}
+        return {'subscription_types': [subscription.return_one() for subscription in course_entity.subscription_types]}
     else:
-        return {"message": "course not found"}
+        return {'message': 'course not found'}
 
 
 @app.route('/subscriptions/types', methods=['GET'])
@@ -30,14 +30,14 @@ def get_subscription_type_by_id(sub_typeId: int):
     return SubscriptionType.get_by_id(sub_typeId)
 
 
-@app.route("/subscriptions/types/<sub_typeId>", methods=['DELETE'])
+@app.route('/subscriptions/types/<sub_typeId>', methods=['DELETE'])
 @jwt_required()
 @coach_required
 def delete_subscription_type_by_id(sub_typeId: int):
     return SubscriptionType.delete_by_id(sub_typeId)
 
 
-@app.route("/subscriptions/types", methods=['PUT'])
+@app.route('/subscriptions/types', methods=['PUT'])
 @jwt_required()
 @coach_required
 def update_subscription_type():
@@ -50,17 +50,17 @@ def update_subscription_type():
     parser.add_argument('courseid', type=int, required=True, help='This field cannot be left blank')
     data = parser.parse_args()
 
-    sub_typeId = data["id"]
-    sub_type_entity = SubscriptionType.query.get(sub_typeId)
+    sub_type_id = data['id']
+    sub_type_entity = SubscriptionType.query.get(sub_type_id)
 
     if sub_type_entity:
-        sub_type_entity.name = data["name"]
-        sub_type_entity.session_count = data["session_count"]
-        sub_type_entity.duration = data["duration"]
-        sub_type_entity.price = data["price"]
-        sub_type_entity.course_id = data["courseid"]
+        sub_type_entity.name = data['name']
+        sub_type_entity.session_count = data['session_count']
+        sub_type_entity.duration = data['duration']
+        sub_type_entity.price = data['price']
+        sub_type_entity.course_id = data['courseid']
         sub_type_entity.save_to_db()
 
         return {'message': 'Subscription type have been updated successfully.'}
     else:
-        return {'error': f'Subscription type with id={sub_typeId} does not exist!'}, 404
+        return {'error': f'Subscription type with id={sub_type_id} does not exist!'}, 404
