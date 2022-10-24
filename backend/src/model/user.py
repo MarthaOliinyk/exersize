@@ -17,7 +17,7 @@ class User(db.Model):
                             backref=db.backref('user', lazy='dynamic'))
     courses = db.relationship('Course', secondary='users_courses',
                               backref=db.backref('user', lazy='dynamic'))
-    apoointment = db.relationship('Appointment', secondary='users_appointments',
+    appointment = db.relationship('Appointment', secondary='users_appointments',
                               backref=db.backref('user', lazy='dynamic'))
 
     def to_json(self):
