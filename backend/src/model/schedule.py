@@ -7,6 +7,7 @@ class Schedule(db.Model):
     end = db.Column(db.DateTime, nullable=False)
     participants = db.Column(db.Integer, nullable=False)
     course_id = db.Column(db.Integer(), db.ForeignKey('course.id', ondelete='CASCADE'))
+    appointments = db.relationship('Appointment', backref='schedule', lazy=True)
 
     def save_to_db(self):
         db.session.add(self)
