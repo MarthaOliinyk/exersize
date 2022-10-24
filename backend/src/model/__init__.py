@@ -7,3 +7,6 @@ from src.model.subscription_type import SubscriptionType
 from src.model.user import User
 from src.model.users_courses import UsersCourses
 from src.model.users_roles import UsersRoles
+from src.model.schedule import Schedule
+from src.model.appointment import Appointment
+from src.model.users_appointments import UsersAppointments
