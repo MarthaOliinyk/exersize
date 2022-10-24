@@ -1,5 +1,6 @@
 from src.app import db
 from flask import jsonify
+from sqlalchemy import or_
 
 
 class Course(db.Model):
@@ -70,3 +71,15 @@ class Course(db.Model):
             return jsonify({
                 "message": "Something went wrong"
             })
+
+    @classmethod
+    def search_courses(cls, text):
+        def to_json(x):
+            return {
+                'name': x.name,
+                'description': x.description,
+                'tag': x.tag
+            }
+
+        query = cls.query.filter(or_(Course.name.like(f'%{text}%'), Course.description.like(f'%{text}%'))).all()
+        return {'courses': [to_json(course) for course in query]}

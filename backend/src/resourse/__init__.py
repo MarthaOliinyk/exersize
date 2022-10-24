@@ -12,8 +12,11 @@ from src.resourse.users import delete_user_by_id
 from src.resourse.roles import get_user_roles
 
 from src.resourse.courses import add_course
-from src.resourse.courses import get_courses
-from src.resourse.courses import delete_courses
+from src.resourse.courses import get_all_courses
+from src.resourse.courses import delete_course
+from src.resourse.courses import get_course_by_name
+from src.resourse.courses import update_course
+from src.resourse.courses import get_serched_courses
 
 from src.resourse.subscription_types import get_subscription_type_by_courseid
 from src.resourse.subscription_types import get_subscription_type_by_id
