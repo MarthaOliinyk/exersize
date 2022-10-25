@@ -14,6 +14,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.config['SECRET_KEY'] = getenv('SECRET_KEY')
 
+app.config["WTF_CSRF_ENABLED"] = False
+app.config["JWT_COOKIE_CSRF_PROTECT"] = False
 app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
 app.config['JWT_SECRET_KEY'] = getenv('JWT_SECRET_KEY')
 app.config['JWT_BLACKLIST_ENABLED'] = True
