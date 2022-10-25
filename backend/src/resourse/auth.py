@@ -1,5 +1,6 @@
 import sys
 from datetime import datetime, timezone, timedelta
+from flask import jsonify
 from src.app import app
 from flask_restful import reqparse
 from src.model.revoked_tokens import RevokedTokens
@@ -12,7 +13,8 @@ from flask_jwt_extended import (
     jwt_required,
     get_jwt_identity,
     get_jwt,
-    set_access_cookies
+    set_access_cookies,
+    unset_jwt_cookies
 )
 
 
@@ -55,11 +57,14 @@ def register():
         access_token = create_access_token(identity=username)
         refresh_token = create_refresh_token(identity=username)
 
-        return {
+        response = jsonify({
             'message': f'User {username} was created',
             'access_token': access_token,
             'refresh_token': refresh_token
-        }
+        })
+        set_access_cookies(response, access_token)
+
+        return response, 200
     except:
         return {'error': f'{sys.exc_info()[0]}'}, 500
 
@@ -83,11 +88,14 @@ def login():
         access_token = create_access_token(identity=username)
         refresh_token = create_refresh_token(identity=username)
 
-        return {
+        response = jsonify({
             'message': f'Logged in as {username}',
             'access_token': access_token,
             'refresh_token': refresh_token
-        }
+        })
+
+        set_access_cookies(response, access_token)
+        return response, 200
     else:
         return {'error': 'Wrong credentials'}, 401
 
@@ -101,7 +109,9 @@ def logout():
         revoked_token = RevokedTokens(jti=jti)
         revoked_token.add()
 
-        return {'message': 'Access token has been revoked'}
+        response = jsonify({'message': 'Access token has been revoked'})
+        unset_jwt_cookies(response)
+        return response, 200
     except:
         return {'error': f'{sys.exc_info()[0]}'}, 500
 
