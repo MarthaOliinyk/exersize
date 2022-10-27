@@ -79,7 +79,7 @@ def login():
     data = parser.parse_args()
     username = data['username']
 
-    current_user = User.find_by_username(username)
+    current_user = User.find_by_email_or_username(username)
 
     if not current_user:
         return {'message': f'User {username} doesn\'t exist'}
