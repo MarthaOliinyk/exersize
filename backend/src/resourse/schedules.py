@@ -31,7 +31,7 @@ def add_schedule():
 
         return {'message': 'schedules have been created successfully.'}
     else:
-        return {'message': 'course not found.'}
+        return {'message': 'course not found.'}, 404
 
 
 @app.route('/schedule/course/<courseId>', methods=['GET'])
@@ -41,7 +41,7 @@ def get_schedule_by_course_id(courseId: int):
     if course_entity:
         return {'schedules': [schedule.return_one() for schedule in course_entity.schedules]}
     else:
-        return {'message': 'course not found'}
+        return {'message': 'course not found'}, 404
 
 
 @app.route('/schedule', methods=['GET'])

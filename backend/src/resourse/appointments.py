@@ -8,9 +8,8 @@ from flask_jwt_extended import (
     get_jwt_identity,
 )
 
-from backend.src.model.appointment import Appointment
-from backend.src.model.schedule import Schedule
-from backend.src.model.subscription import Subscription
+from src.model.appointment import Appointment
+from src.model.schedule import Schedule
 
 
 @app.route('/appointment', methods=['POST'])
@@ -27,21 +26,25 @@ def add_appointment():
     current_user = get_jwt_identity()
     user = User.find_by_username(current_user)
 
+    schedule = Schedule.query.get(schedule_id)
+
     new_appointment = Appointment(
         time=time,
         schedule_id=schedule_id,
     )
-    new_appointment.save_to_db()
 
     user.appointments.append(new_appointment)
-    user.save_to_db()
+    schedule.appointments.append(new_appointment)
 
-    subscription = Schedule.query.join(SubscriptionType, Schedule.course_id == SubscriptionType.course_id).\
-        join(Subscription, Subscription.subscription_type_id == SubscriptionType.id).\
-        join(User, Subscription.user_id == User.id).\
-        filter(Schedule.id == schedule_id)
-
-    subscription.session_number -= 1
+    for subscription in user.subscriptions:
+        sub_type = SubscriptionType.query.get(subscription.subscription_type_id)
+        if sub_type.course_id == schedule.course_id:
+            if subscription.session_number >= 1:
+                subscription.session_number -= 1
+            else:
+                return {'message': 'no sessions in subscription.'}, 402
+            break
+    new_appointment.save_to_db()
 
     return {'message': 'appointment have been created successfully.'}, 201
 

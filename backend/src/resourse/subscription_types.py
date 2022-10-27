@@ -15,7 +15,7 @@ def get_subscription_type_by_courseid(courseId: int):
     if course_entity:
         return {'subscription_types': [subscription.return_one() for subscription in course_entity.subscription_types]}
     else:
-        return {'message': 'course not found'}
+        return {'message': 'course not found'}, 404
 
 
 @app.route('/subscriptions/types', methods=['GET'])
