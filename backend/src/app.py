@@ -2,12 +2,14 @@ from os import getenv
 from flask import Flask
 from datetime import timedelta
 from dotenv import load_dotenv
+from flask_cors import CORS
 from flask_restful import reqparse
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 
 load_dotenv()
 app = Flask(__name__)
+cors = CORS(app)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = getenv('SQLALCHEMY_DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
