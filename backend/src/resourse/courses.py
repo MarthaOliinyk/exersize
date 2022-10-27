@@ -108,3 +108,4 @@ def get_course_schedule(course_id: int):
             time = time + timedelta(hours=1)
 
     return {"times": res}
+    
