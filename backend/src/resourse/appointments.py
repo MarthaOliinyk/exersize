@@ -43,7 +43,7 @@ def add_appointment():
                 subscription.session_number -= 1
                 break
     else:
-        return {'message': 'no subscription.'}, 404
+        return {'message': 'no available subscription for this course.'}, 404
 
     new_appointment.save_to_db()
 
