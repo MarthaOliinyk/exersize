@@ -41,9 +41,10 @@ def add_appointment():
         if sub_type.course_id == schedule.course_id:
             if subscription.session_number >= 1:
                 subscription.session_number -= 1
-            else:
-                return {'message': 'no sessions in subscription.'}, 402
-            break
+                break
+    else:
+        return {'message': 'no available subscription for this course.'}, 404
+
     new_appointment.save_to_db()
 
     return {'message': 'appointment have been created successfully.'}, 201
