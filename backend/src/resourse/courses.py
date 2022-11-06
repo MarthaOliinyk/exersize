@@ -92,3 +92,14 @@ def update_course(course_id: int):
 @jwt_required()
 def get_serched_courses(text: str):
     return Course.search_courses(text)
+
+
+@app.route('/courses/filter', methods=['GET'])
+@jwt_required()
+def get_filtered_types():
+    parser = reqparse.RequestParser()
+    parser.add_argument('tag', type=str, required=False, default=Course.tag)
+    parser.add_argument('duration', type=int, required=False, default=SubscriptionType.duration)
+    parser.add_argument('price', type=float, required=False, default=SubscriptionType.price)
+    data = parser.parse_args()
+    return SubscriptionType.get_filtered(data)

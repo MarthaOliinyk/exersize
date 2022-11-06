@@ -1,4 +1,5 @@
 from src.app import db
+from src.model.course import Course
 
 
 class SubscriptionType(db.Model):
@@ -45,11 +46,31 @@ class SubscriptionType(db.Model):
             return {'error': f'Subscription type with id={sub_typeId} does not exist!'}, 404
 
     @classmethod
-    def delete_by_id(cls, sub_typeId):
-        if cls.query.get(sub_typeId):
-            cls.query.filter_by(id=sub_typeId).delete()
+    def delete_by_id(cls, sub_typeid):
+        if cls.query.get(sub_typeid):
+            cls.query.filter_by(id=sub_typeid).delete()
             db.session.commit()
 
-            return {"message": f"Subscription type with id={sub_typeId} was successfully deleted"}
+            return {"message": f"Subscription type with id={sub_typeid} was successfully deleted"}
         else:
-            return {'error': f'Subscription type with id={sub_typeId} does not exist!'}, 404
+            return {'error': f'Subscription type with id={sub_typeid} does not exist!'}, 404
+
+    @classmethod
+    def get_filtered(cls, data):
+        filtered = db.session.query(SubscriptionType).join(Course).filter(Course.tag == data['tag']) \
+            .filter(SubscriptionType.duration == data['duration']) \
+            .filter(SubscriptionType.price == data['price']).all()
+
+        def to_json(x):
+            return Course.return_one(x.course_id), \
+                   {
+                       'subbscription_type': {'id': x.id,
+                                              'name': x.name,
+                                              'session_count': x.session_count,
+                                              'duration': x.duration,
+                                              'price': x.price,
+                                              'course_id': x.course_id}
+
+                   }
+
+        return {'filtered': [to_json(s_type) for s_type in filtered]}
