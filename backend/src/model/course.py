@@ -5,9 +5,9 @@ from sqlalchemy import or_
 
 class Course(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(45), unique=True, nullable=False)
-    description = db.Column(db.String(200), nullable=False)
-    tag = db.Column(db.String(45), nullable=False)
+    name = db.Column(db.String(120), unique=True, nullable=False)
+    description = db.Column(db.String(2000), nullable=False)
+    tag = db.Column(db.String(30), nullable=False)
     subscription_types = db.relationship('SubscriptionType', backref='course', lazy=True)
     users = db.relationship('User', secondary='users_courses', viewonly=True)
     schedules = db.relationship('Schedule', backref='course', lazy=True)
@@ -45,11 +45,11 @@ class Course(db.Model):
             db.session.commit()
 
             return jsonify({
-                "message": f"course {course_id} deleted"
+                'message': f'course {course_id} deleted'
             })
         except:
             return jsonify({
-                "message": "Something went wrong"
+                'message': 'Something went wrong'
             })
 
     @classmethod
@@ -65,11 +65,11 @@ class Course(db.Model):
             sub_type.tag = data['tag']
             db.session.commit()
             return jsonify({
-                "message": f"course {course_id} updated"
+                'message': f'course {course_id} updated'
             })
         except:
             return jsonify({
-                "message": "Something went wrong"
+                'message': 'Something went wrong'
             })
 
     @classmethod

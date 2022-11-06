@@ -9,6 +9,7 @@ from flask_jwt_extended import (
     jwt_required,
     get_jwt_identity,
 )
+from datetime import timedelta
 
 
 @app.route('/courses', methods=['POST'])
@@ -73,7 +74,7 @@ def delete_course(course_id: int):
         Course.delete_by_id(course_id)
         return {'message': 'Course and subscriptions were deleted'}
     except:
-        return {'message': 'Something went wrong'}, 500
+        return {'error': 'Something went wrong'}, 500
 
 
 @app.route('/courses/<course_id>', methods=['PUT'])
@@ -103,3 +104,19 @@ def get_filtered_types():
     parser.add_argument('price', type=float, required=False, default=SubscriptionType.price)
     data = parser.parse_args()
     return SubscriptionType.get_filtered(data)
+
+
+@app.route('/courses/schedule/<course_id>', methods=['GET'])
+def get_course_schedule(course_id: int):
+    course_entity = Course.query.get(course_id)
+    res = []
+    for schedule in course_entity.schedules:
+        appointments_time = [ap.time for ap in schedule.appointments]
+        time = schedule.start
+        while time <= schedule.end:
+            members = appointments_time.count(time)
+            res.append({"time":time, "free": schedule.participants - members})
+            time = time + timedelta(hours=1)
+
+    return {"times": res}
+    

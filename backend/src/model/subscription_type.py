@@ -9,6 +9,7 @@ class SubscriptionType(db.Model):
     duration = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Float, nullable=False)
     course_id = db.Column(db.Integer(), db.ForeignKey('course.id', ondelete='CASCADE'))
+    subscriptions = db.relationship('Subscription', backref='subscription_type', lazy=True)
 
     def save_to_db(self):
         db.session.add(self)
@@ -21,6 +22,7 @@ class SubscriptionType(db.Model):
             'session_count': self.session_count,
             'duration': self.duration,
             'price': self.price,
+            'course_id': self.course_id
         }
 
     @classmethod
@@ -50,8 +52,7 @@ class SubscriptionType(db.Model):
         if cls.query.get(sub_typeid):
             cls.query.filter_by(id=sub_typeid).delete()
             db.session.commit()
-
-            return {"message": f"Subscription type with id={sub_typeid} was successfully deleted"}
+            return {'message': f'Subscription type with id={sub_typeId} was successfully deleted'}
         else:
             return {'error': f'Subscription type with id={sub_typeid} does not exist!'}, 404
 
