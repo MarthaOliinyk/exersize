@@ -23,6 +23,7 @@ function App() {
                     <Route path="/" element={<HomePage/>}/>
                     <Route path="/create" element={<NewCoursePage/>}/>
                     <Route path="/courses" element={<CoursesList/>}/>
+                    
                 </Routes>
             </BrowserRouter>
             <Footer/>
