@@ -3,7 +3,7 @@ import {useState} from 'react';
 import {Button} from 'react-bootstrap'
 import {TextField, Dialog, DialogActions, DialogTitle, DialogContent, DialogContentText} from '@mui/material'
 import SignUp from './SignUp';
-
+import Axios from 'axios';
 
 export default function LogIn() {
 
@@ -15,21 +15,30 @@ export default function LogIn() {
     const handleClose = () => {
         setOpen(false);
     }
-    const [email, setEmail] = useState("")
-    const [pass, setPass] = useState("")
-    const handleSubmit = (e) => {
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
-        if (email && pass) {
-            data["logInEmail"] = email
-            data["logInPassword"] = pass
-            console.log(data)
+        if (username && password) {
+            data["logInUsername"] = username
+            data["logInPassword"] = password
+            Axios.post('https://localhost:8080', {
+                username,
+                password
+              })
+              .then((response) => {
+                console.log(response);
+              }, (error) => {
+                console.log(error);
+              });
+              
         }
     }
 
 
     return (
-        <div className='A'>
+        <div>
             <Button className="btn" onClick={handleOpen}>Log in</Button>
             <Dialog open={open} onClose={handleClose} aria-labelledby="Log in" maxWidth="md">
                 <form className="logInForm" noValidate autoComplete='off' onSubmit={handleSubmit}>
@@ -38,25 +47,24 @@ export default function LogIn() {
                         <DialogContentText>Log in to continue your training journey!</DialogContentText>
                         <DialogContentText>Not a member yet? Click sign up!</DialogContentText>
                         <TextField
-                            className="email"
+                            className="username"
                             autoFocus
                             margin="dense"
-                            id="email"
-                            label="Email address"
-                            type="email"
+                            id="username"
+                            label="Username"
+                            type="username"
                             fullWidth
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
                         />
-                        <TextField className="pass"
-                                   autoFocus
+                        <TextField className="password"
                                    margin="dense"
-                                   id="pass"
+                                   id="password"
                                    label="Password"
                                    type="password"
                                    fullWidth
-                                   value={pass}
-                                   onChange={(e) => setPass(e.target.value)}
+                                   value={password}
+                                   onChange={(e) => setPassword(e.target.value)}
                         />
                     </DialogContent>
                     <DialogActions style={{justifyContent: "space-between", marginRight: 10, marginLeft: 10}}>

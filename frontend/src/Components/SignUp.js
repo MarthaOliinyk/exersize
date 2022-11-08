@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {useState} from 'react';
 import {Button} from 'react-bootstrap'
 import {TextField, Dialog, DialogActions, DialogTitle, DialogContent, DialogContentText} from '@mui/material'
-
+import Axios from 'axios';
 
 export default function SignUp() {
     const [open, setOpen] = React.useState(false);
@@ -15,20 +15,31 @@ export default function SignUp() {
     }
     const data = {}
     const [email, setEmail] = useState("")
-    const [pass, setPass] = useState("")
+    const [password, setPass] = useState("")
     const [username, setUsername] = useState("")
     const [fname, setFname] = useState("")
     const [lname, setLname] = useState("")
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        if (email && pass && username && fname && lname) {
+        if (email && password && username && fname && lname) {
             data["First name"] = fname
             data["Last name"] = lname
-            data["username"] = username
+            data["Username"] = username
             data["Email"] = email
-            data["Password"] = pass
-            console.log(data)
+            data["Password"] = password
+            Axios.post('https://localhost:8080', {
+                fname,
+                lname,
+                username,
+                email,
+                password
+              })
+              .then((response) => {
+                console.log(response);
+              }, (error) => {
+                console.log(error);
+              });
         }
     }
 
@@ -52,7 +63,7 @@ export default function SignUp() {
                             onChange={(e) => setFname(e.target.value)}
                         />
                         <TextField
-                            autoFocus
+                            
                             margin="dense"
                             id="last name"
                             label="Last name"
@@ -62,7 +73,7 @@ export default function SignUp() {
                             onChange={(e) => setLname(e.target.value)}
                         />
                         <TextField
-                            autoFocus
+                            
                             margin="dense"
                             id="username"
                             label="Username"
@@ -72,7 +83,7 @@ export default function SignUp() {
                             onChange={(e) => setUsername(e.target.value)}
                         />
                         <TextField
-                            autoFocus
+                            
                             margin="dense"
                             id="email"
                             label="Email"
@@ -82,13 +93,13 @@ export default function SignUp() {
                             onChange={(e) => setEmail(e.target.value)}
                         />
                         <TextField
-                            autoFocus
+                            
                             margin="dense"
                             id="password"
                             label="Password"
                             type="password"
                             fullWidth
-                            value={pass}
+                            value={password}
                             onChange={(e) => setPass(e.target.value)}
                         />
                     </DialogContent>
