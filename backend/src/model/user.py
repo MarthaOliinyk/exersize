@@ -17,8 +17,8 @@ class User(db.Model):
                             backref=db.backref('user', lazy='dynamic'))
     courses = db.relationship('Course', secondary='users_courses',
                               backref=db.backref('user', lazy='dynamic'))
-    appointment = db.relationship('Appointment', secondary='users_appointments',
-                              backref=db.backref('user', lazy='dynamic'))
+    appointments = db.relationship('Appointment', secondary='users_appointments',
+                                  backref=db.backref('user', lazy='dynamic'))
 
     def to_json(self):
         return {
@@ -40,6 +40,10 @@ class User(db.Model):
     @classmethod
     def find_by_email(cls, email):
         return cls.query.filter_by(email=email).first()
+
+    @classmethod
+    def find_by_email_or_username(cls, identifier):
+        return cls.query.filter((User.email == identifier) | (User.username == identifier)).first()
 
     @classmethod
     def find_by_id(cls, userId):

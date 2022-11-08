@@ -12,6 +12,7 @@ from src.resourse.courses import get_course_by_name
 from src.resourse.courses import delete_course
 from src.resourse.courses import update_course
 from src.resourse.courses import get_serched_courses
+from src.resourse.courses import get_course_schedule
 
 from src.resourse.roles import get_user_roles
 
@@ -36,3 +37,7 @@ from src.resourse.subscriptions import delete_subscription_by_id
 from src.resourse.users import get_user_by_id
 from src.resourse.users import get_users
 from src.resourse.users import delete_user_by_id
+
+from src.resourse.appointments import add_appointment
+from src.resourse.appointments import get_appointment_by_id
+

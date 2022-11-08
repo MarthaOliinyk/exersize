@@ -9,6 +9,7 @@ from flask_jwt_extended import (
     jwt_required,
     get_jwt_identity,
 )
+from datetime import timedelta
 
 
 @app.route('/courses', methods=['POST'])
@@ -92,3 +93,19 @@ def update_course(course_id: int):
 @jwt_required()
 def get_serched_courses(text: str):
     return Course.search_courses(text)
+
+
+@app.route('/courses/schedule/<course_id>', methods=['GET'])
+def get_course_schedule(course_id: int):
+    course_entity = Course.query.get(course_id)
+    res = []
+    for schedule in course_entity.schedules:
+        appointments_time = [ap.time for ap in schedule.appointments]
+        time = schedule.start
+        while time <= schedule.end:
+            members = appointments_time.count(time)
+            res.append({"time":time, "free": schedule.participants - members})
+            time = time + timedelta(hours=1)
+
+    return {"times": res}
+    
