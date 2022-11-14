@@ -23,15 +23,13 @@ export default function LogIn() {
         if (username && password) {
             data["logInUsername"] = username
             data["logInPassword"] = password
-            Axios.post('https://localhost:8080', {
-                username,
-                password
-              })
-              .then((response) => {
-                console.log(response);
-              }, (error) => {
-                console.log(error);
-              });
+            Axios.post("http://localhost:8080/login",
+            {
+                username: username,
+                password: password
+            },
+            {withCredentials: true}
+            ).then(console.log).catch(console.log)
               
         }
     }
