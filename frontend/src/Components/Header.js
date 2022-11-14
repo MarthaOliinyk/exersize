@@ -11,13 +11,7 @@ import axios from 'axios';
 function  BasicExample() {
     const [role, setRole] = useState([]);
     useEffect(() => {
-        axios.post("http://localhost:8080/login",
-            {
-                username: "denshyk",
-                password: "whoknows:)"
-            },
-            {withCredentials: true}
-            ).then(console.log).catch(console.log)
+       
  
        axios.get("http://localhost:8080/users/roles", {withCredentials: true})
         .then((data)=>setRole(getRoles(data)))
