@@ -9,7 +9,7 @@ import pic3 from "../images/workout3.jpg"
 
 export default function WorkoutMarkup() {
     return (
-        <div className='workout__wrapper'>
+        <div className='workout__wrapper' id="workout">
             <div className='main__container workout__container'>
                 <h2 className='workout__title'>WORKOUT CLASSES</h2>
                 <ul className='workout__list'>

@@ -4,7 +4,7 @@ import {Button} from 'react-bootstrap'
 
 export default function WhyMarkup() {
     return (
-        <section className="main__container why__container">
+        <section className="main__container why__container" id="why">
             <div className="why__left_part">
                 <div className="why__sq">
                     <h3 className="why__number">20+</h3>
