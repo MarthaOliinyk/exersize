@@ -12,7 +12,7 @@ from src.resourse.courses import get_course_by_name
 from src.resourse.courses import delete_course
 from src.resourse.courses import update_course
 from src.resourse.courses import get_serched_courses
-from src.resourse.courses import get_filtered_types
+from src.resourse.courses import get_filtered_subscription_types
 from src.resourse.courses import get_course_schedule
 
 from src.resourse.roles import get_user_roles
