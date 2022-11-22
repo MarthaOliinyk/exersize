@@ -36,7 +36,7 @@ class Course(db.Model):
                 'tag': x.tag
             }
 
-        return {'course': [to_json(cls.query.filter_by(id=course_id).first())]}
+        return {'course': to_json(cls.query.filter_by(id=course_id).first())}
 
     @classmethod
     def delete_by_id(cls, course_id):
