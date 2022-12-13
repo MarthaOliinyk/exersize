@@ -9,15 +9,16 @@ import axios from 'axios';
  
 //import "../../scss/header.css"
 function  BasicExample() {
-    const [role, setRole] = useState([]);
+    const [role, setRole] = useState("");
     useEffect(() => {
        
  
        axios.get("http://localhost:8080/users/roles", {withCredentials: true})
-        .then((data)=>setRole(getRoles(data)))
+        .then((data)=>setRole(()=>getRoles(data)))
         .catch(console.log);
  
         function getRoles(roles){
+
           const arrOfRoles=[];
           roles.data.roles.map((role)=>arrOfRoles.push(role.role))
           if(arrOfRoles.includes("coach"))
@@ -32,6 +33,7 @@ function  BasicExample() {
           {
             return "admin"
           }
+          
         }
       }, []);
     return(
