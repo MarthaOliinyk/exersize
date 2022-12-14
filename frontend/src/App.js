@@ -9,13 +9,19 @@ import CoursesList from "./Components/CoursesList"
 import Footer from "./Components/Footer"
 import Gallery from "./Components/Gallery";
 import NewCoursePage from "./Components/NewCourse";
-import React from 'react';
+import React, { useEffect } from 'react';
 import {Router} from "react-router-dom";
 import "../src/App.scss"
+import { useCookies } from "react-cookie";
 import {BrowserRouter, Routes, Route, Link} from "react-router-dom";
 
 function App() {
+// const [cookies, setCookie] = useCookies();
+useEffect(()=>{
+    console.log(document.cookie)
+},[])
     return (
+        
         <div className="App">
             <Header/>
             <BrowserRouter>
