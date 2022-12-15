@@ -11,7 +11,7 @@ import pic8 from "../images/gallery8.jpg"
 
 export default function GallerryMarkup() {
     return (
-        <section>
+        <section id="gallery">
             <div className="gallery__top">
                 <ul className="gallery__list">
                     <li className="gallery__item">

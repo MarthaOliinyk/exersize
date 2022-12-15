@@ -95,6 +95,17 @@ def get_serched_courses(text: str):
     return Course.search_courses(text)
 
 
+@app.route('/courses/filter', methods=['GET'])
+@jwt_required()
+def get_filtered_subscription_types():
+    parser = reqparse.RequestParser()
+    parser.add_argument('tag', type=str, required=False, default=Course.tag)
+    parser.add_argument('duration', type=int, required=False, default=SubscriptionType.duration)
+    parser.add_argument('price', type=float, required=False, default=SubscriptionType.price)
+    data = parser.parse_args()
+    return SubscriptionType.get_filtered_subsciption_types(data)
+
+
 @app.route('/courses/schedule/<course_id>', methods=['GET'])
 def get_course_schedule(course_id: int):
     course_entity = Course.query.get(course_id)
@@ -104,8 +115,7 @@ def get_course_schedule(course_id: int):
         time = schedule.start
         while time <= schedule.end:
             members = appointments_time.count(time)
-            res.append({"time":time, "free": schedule.participants - members})
+            res.append({"time": time, "free": schedule.participants - members})
             time = time + timedelta(hours=1)
 
     return {"times": res}
-    

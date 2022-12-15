@@ -8,13 +8,14 @@ import Gallery from "./Gallery";
 
 export default function Main() {
     return (
-        <>
+        <div>
             <Hero/>
             <Why/>
             <Workout/>
             <Pricing/>
             <Gallery/>
             <Benefit/>
-        </>
+            
+        </div>
     )
 }

@@ -1,5 +1,95 @@
-.footer {
+.footer__container{
+  @media screen and (max-width: 480px) {
+    text-align: center;
+  }
+  @media screen and (min-width: 480px) {
+    display: flex;
+  }
+  @media screen and (min-width: 1200px) {
+    justify-content: space-around;
+  }
+  
+}.footer {
   background-color: var(--accent-color);
-  padding-top: 97px;
-  padding-bottom: 97px;
+  @media screen and (max-width: 480px) {
+    padding-top: 0px;
+    padding-bottom: 20px;
+    
+  }
+  padding-top: 50px;
+  color: white;
+  padding-bottom: 50px;
+  
+}
+.footer__img{
+  @media screen and (max-width: 480px) {
+    margin-left:30%;
+    
+  }
+  @media screen and (max-width: 1200px) {
+    width: 176px;
+  height: 140px;
+  margin-top: 40px;
+  margin-right: 10px;
+  }
+  @media screen and (min-width: 768px) {
+    margin-right: 50px;
+  }
+  @media screen and (min-width: 1200px) {
+    width: 244px;
+  height: 201px;
+  }
+  
+}
+.footer__header{
+  font-family: 'Red Hat Display';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 22px;
+letter-spacing: 1px;
+text-transform: uppercase;
+margin-bottom: 30px;
+
+}
+.footer__gmail{
+  font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 27px;
+line-height: 48px;
+letter-spacing: 0.5px;
+margin-bottom: 30px;
+@media screen and (max-width: 991px) {
+  font-size: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+}
+.footer__field{
+  font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 18px;
+line-height: 32px;
+letter-spacing: 0.5px;
+margin-bottom: 15px;
+@media screen and (max-width: 991px) {
+    font-size: 15px;
+}
+}
+.footer__left{
+  @media screen and (max-width: 480px) {
+    margin-right: 0;
+    margin-bottom: 60px;
+  }
+  @media screen and (min-width: 480px) {
+    margin-right: 35px;
+  }
+  @media screen and (min-width: 768px) {
+    margin-right: 100px;
+  }
+  @media screen and (min-width: 1200px) {
+    
+  }
 }

@@ -3,7 +3,7 @@ from flask import Flask
 from datetime import timedelta
 from dotenv import load_dotenv
 from flask_cors import CORS
-from flask_restful import reqparse
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 
@@ -24,27 +24,19 @@ app.config['JWT_BLACKLIST_ENABLED'] = True
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 
 db = SQLAlchemy(app)
-
+migrate = Migrate(app, db)
 jwt = JWTManager(app)
 
-import src.resourse
 from src.model.revoked_tokens import RevokedTokens
 
 
-@app.before_request
-def create_tables():
-    db.create_all()
-
-
-@app.route('/')
-def home():
-    user_agent = reqparse.request.headers.get('User-Agent')
-    ip = reqparse.request.environ['REMOTE_ADDR']
-
-    return {
-        'user_agent': user_agent,
-        'ip': ip
-    }
+@app.after_request
+def cors_origin(response):
+    response.headers["Access-Control-Allow-Credentials"] = "true"
+    response.headers["Access-Control-Allow-Origin"] = "http://localhost:3000"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Access-Control-Allow-Headers, Authorization, " \
+                                                       "X-Requested-With "
+    return response
 
 
 @jwt.token_in_blocklist_loader

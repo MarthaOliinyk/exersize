@@ -51,7 +51,11 @@ function CreateMarkup() {
                 </div>
                 <div class='form__field'>
                     <label for="duration" class='form__label' >Duration (days)</label>
-                    <input id='duration' required type="number" class='form__input' name="duration"></input>
+                    <select id="subs_durstion" name="subs_durstion" class='form__select'>
+                        <option value="30">30</option>
+                        <option value="60">60</option>
+                        <option value="90">90</option>
+                    </select>
                 </div>
                 <div class='form__field'>
                     <label for="price" class='form__label' >Price</label>
@@ -104,7 +108,11 @@ function CreateMarkup() {
                 </div>
                 <div className='form__field'>
                     <label htmlFor="duration" className='form__label'>Duration (days)</label>
-                    <input id='duration' required type={"number"} className='form__input' name="duration"></input>
+                    <select id="subs_durstion" name="subs_durstion" className='form__select'>
+                        <option value="30">30</option>
+                        <option value="60">60</option>
+                        <option value="90">90</option>
+                    </select>
                 </div>
                 <div className='form__field'>
                     <label htmlFor="price" className='form__label'>Price</label>

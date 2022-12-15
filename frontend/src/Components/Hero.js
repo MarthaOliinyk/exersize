@@ -6,9 +6,9 @@ import {Button} from 'react-bootstrap'
 export default function HeroMarkup() {
     return (
         <div className="wrapper">
-            <div id="#hero" className="hero__container main__container">
+            <div id="#heroo" className="hero__container main__container">
 
-                <img src={img} className='hero__img'></img>
+                <img src={img} alt="hero" className='hero__img'></img>
                 <div className="hero__right">
                     <p className="hero__pre_title">Exercise Platform</p>
                     <h1 className="hero__title">Unleash your inner strength</h1>

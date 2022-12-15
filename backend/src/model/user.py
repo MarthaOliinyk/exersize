@@ -18,15 +18,16 @@ class User(db.Model):
     courses = db.relationship('Course', secondary='users_courses',
                               backref=db.backref('user', lazy='dynamic'))
     appointments = db.relationship('Appointment', secondary='users_appointments',
-                                  backref=db.backref('user', lazy='dynamic'))
+                                   backref=db.backref('user', lazy='dynamic'))
 
     def to_json(self):
         return {
             'username': self.username,
-            'password': self.password,
+            'registrationDate': self.registrationDate,
             'email': self.email,
             'fullname': self.fullname,
-            'age': self.age
+            'age': self.age,
+            'roles': [role.name for role in self.roles]
         }
 
     def save_to_db(self):
