@@ -41,4 +41,3 @@ from src.resourse.users import delete_user_by_id
 
 from src.resourse.appointments import add_appointment
 from src.resourse.appointments import get_appointment_by_id
-

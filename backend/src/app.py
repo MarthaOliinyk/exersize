@@ -3,7 +3,7 @@ from flask import Flask
 from datetime import timedelta
 from dotenv import load_dotenv
 from flask_cors import CORS
-from flask_restful import reqparse
+from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 
@@ -24,16 +24,10 @@ app.config['JWT_BLACKLIST_ENABLED'] = True
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 
 db = SQLAlchemy(app)
-
+migrate = Migrate(app, db)
 jwt = JWTManager(app)
 
-import src.resourse
 from src.model.revoked_tokens import RevokedTokens
-
-
-@app.before_request
-def create_tables():
-    db.create_all()
 
 
 @app.after_request
