@@ -9,7 +9,6 @@ from src.model.user import User
 
 from flask_jwt_extended import (
     create_access_token,
-    create_refresh_token,
     jwt_required,
     get_jwt_identity,
     get_jwt,
@@ -55,18 +54,13 @@ def register():
         new_user.save_to_db()
 
         access_token = create_access_token(identity=username)
-        refresh_token = create_refresh_token(identity=username)
 
-        response = jsonify({
-            'message': f'User {username} was created',
-            'access_token': access_token,
-            'refresh_token': refresh_token
-        })
+        response = jsonify(new_user.to_json())
         set_access_cookies(response, access_token)
 
         return response, 200
     except:
-        return {'error': f'{sys.exc_info()[0]}'}, 500
+        return {'error': f'{sys.exc_info()}'}, 500
 
 
 @app.route('/login', methods=['POST'])
@@ -82,18 +76,12 @@ def login():
     current_user = User.find_by_email_or_username(username)
 
     if not current_user:
-        return {'message': f'User {username} doesn\'t exist'}
+        return {'message': f'User {username} doesn\'t exist'}, 401
 
     if User.verify_hash(data['password'], current_user.password):
         access_token = create_access_token(identity=username)
-        refresh_token = create_refresh_token(identity=username)
 
-        response = jsonify({
-            'message': f'Logged in as {username}',
-            'access_token': access_token,
-            'refresh_token': refresh_token
-        })
-
+        response = jsonify(current_user.to_json())
         set_access_cookies(response, access_token)
         return response, 200
     else:

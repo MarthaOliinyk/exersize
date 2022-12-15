@@ -115,8 +115,7 @@ def get_course_schedule(course_id: int):
         time = schedule.start
         while time <= schedule.end:
             members = appointments_time.count(time)
-            res.append({"time":time, "free": schedule.participants - members})
+            res.append({"time": time, "free": schedule.participants - members})
             time = time + timedelta(hours=1)
 
     return {"times": res}
-    
