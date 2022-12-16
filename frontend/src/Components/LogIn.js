@@ -1,19 +1,14 @@
 import React, {Component} from 'react';
-import {Cookies} from 'react-cookie';
 import {useState} from 'react';
 import {Button} from 'react-bootstrap'
 import {TextField, Dialog, DialogActions, DialogTitle, DialogContent, DialogContentText} from '@mui/material'
 import SignUp from './SignUp';
 import Axios from 'axios';
 
-const cookies = new Cookies();
 export default function LogIn() {
-    console.log(cookies.get(`access_token_cookie`))
-    const data = {}
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => {
         setOpen(true);
-        console.log(cookies.get(`access_token_cookie`))
     }
     const handleClose = () => {
         setOpen(false);
@@ -24,8 +19,6 @@ export default function LogIn() {
 
         e.preventDefault()
         if (username && password) {
-            data["logInUsername"] = username
-            data["logInPassword"] = password
             Axios.post("http://localhost:8080/login",
                 {
                     username: username,
@@ -33,9 +26,11 @@ export default function LogIn() {
                 },
                 {withCredentials: true}
             ).then(res => {
-                localStorage.setItem("registered", "true")
+                if (res.status === 200) {
+                    localStorage.setItem("registered", "true");
+                    window.location.reload();
+                }
                 console.log(res)
-
             })
                 .catch(error => {
                     console.log(error);
@@ -50,10 +45,14 @@ export default function LogIn() {
     }
 
     const logout = () => {
-        Axios.post("http://localhost:8080/logout", {}, {withCredentials: true}).then(res => {
-            localStorage.setItem("registered", "false")
-            console.log(res)
-        })
+        Axios.post("http://localhost:8080/logout", {}, {withCredentials: true})
+            .then(res => {
+                localStorage.setItem("registered", "false")
+                if (res.status === 200) {
+                    window.location.reload();
+                }
+                console.log(res)
+            })
             .catch(error => {
                 console.log(error);
             })
