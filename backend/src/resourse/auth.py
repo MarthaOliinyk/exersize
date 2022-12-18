@@ -17,7 +17,7 @@ from flask_jwt_extended import (
 )
 
 
-@app.route('/registration', methods=['POST'])
+@app.route('/register', methods=['POST'])
 def register():
     parser = reqparse.RequestParser()
 
