@@ -1,6 +1,6 @@
 import React, {Component, useEffect} from 'react';
-// import { Button } from 'react-bootstrap'
-
+import fetchPayment from './Payment';
+import { customAlphabet } from 'nanoid/non-secure'
 
 export default function CourseList() {
 
@@ -96,12 +96,14 @@ export default function CourseList() {
                     <div class="more">
                         <h2 class="courses__subs">Subscriptions</h2>
                         ${(item.subs_type).map(one => {
+                            const nanoid = customAlphabet('1234567890', 10)
+                        const id = nanoid()
 
                     return `
                             <div class="courses__subscription">
                             <p class="courses__line courses__line--big ">
-                            <input id="${item.course_name}_${one.subs_name}" class="custom-checkbox" type="radio" data-course="${item.course_name}" name="subs" value="${one.subs_name}" />
-                            <label for="${item.course_name}_${one.subs_name}">
+                            <input id="${id}" class="custom-checkbox" type="radio" data-course="${item.course_name}" name="subs" value="${one.subs_name}" />
+                            <label for="${id}">
                             
                             ${one.subs_name}
                           </label> </p>
@@ -162,7 +164,8 @@ export default function CourseList() {
                 const selected = document.querySelector("input:checked")
                 selectedType["type"] = selected.value;
                 selectedType["course_name"] = selected.dataset.course;
-                console.log(selectedType)
+                console.log(selected.id)
+                fetchPayment(selected.id)
             });
         }
         ;
@@ -180,10 +183,12 @@ export default function CourseList() {
         //   event.stopImmediatePropagation();
         //   event.preventDafault();
         // }
-
-
+//         const getPayments=(evt)=>{
+// console.log(evt)
+//         }
+//         btnSunbscribe.addEventListener("click",getPayments())
     })
-
+    
     return (<section className='main__container courses__container'>
             <h1 className='courses__header'>All courses</h1>
             <form action="" className="search">
