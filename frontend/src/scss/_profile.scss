@@ -1,0 +1,422 @@
+.container {
+    position: absolute;
+    width: 457px;
+    height: 97px;
+    left: 68px;
+    top: 60px;
+
+    font-family: 'Red Hat Text';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 64px;
+    line-height: 70px;
+    /* or 110% */
+
+    text-align: center;
+    letter-spacing: 1px;
+
+    color: #000000;
+
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.5);
+}
+
+.group{
+    position: absolute;
+    width: 1275px;
+    height: 351px;
+    left: 82px;
+    top: 208px;
+
+}
+.personalInfo{
+    position: absolute;
+    width: 359px;
+    height: 351px;
+    left: -1px;
+    top: 0px;
+
+    background: #081158;
+    
+}
+.scheduledClasses{
+    /* Rectangle 27 */
+
+position: absolute;
+width: 350px;
+height: 351px;
+left: 0px;
+top: 0px;
+
+background: #081158;
+
+}
+.scheduledClassesText{
+    /* Scheduled Classes */
+
+position: absolute;
+width: 322px;
+height: 74px;
+left: 13px;
+top: 23px;
+
+font-family: 'Red Hat Text';
+font-style: normal;
+font-weight: 400;
+font-size: 32px;
+line-height: 70px;
+/* or 220% */
+text-align: center;
+letter-spacing: 1px;
+
+color: #FFFFFF;
+
+
+}
+
+.buttonGo1{
+        /* button / straight / filled / large */
+
+    /* Auto layout */
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 14px 28px;
+    gap: 10px;
+
+    position: absolute;
+    width: 233px;
+    height: 76px;
+    left: calc(50% - 233px/2);
+    top: calc(50% - 76px/2 + 120.5px);
+
+    background: #F41196;
+    /* btn / blue / normal */
+    box-shadow: 0px 10px 30px rgba(56, 29, 219, 0.2);
+
+
+    /* GO */
+
+    width: 175px;
+    height: 48px;
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 28px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+
+    color: #FFFFFF;
+
+
+    /* Inside auto layout */
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+
+
+    /* icons/download */
+
+    display: none;
+    width: 20px;
+    height: 20px;
+
+
+    /* Inside auto layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+
+}
+
+.buttonGo2{
+    /* button / straight / filled / large */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 14px 28px;
+gap: 10px;
+
+position: absolute;
+width: 233px;
+height: 76px;
+left: calc(50% - 233px/2 - 0.5px);
+top: calc(50% - 76px/2 + 120.5px);
+
+background: #F41196;
+/* btn / blue / normal */
+box-shadow: 0px 10px 30px rgba(56, 29, 219, 0.2);
+
+
+/* GO */
+
+width: 175px;
+height: 48px;
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 700;
+font-size: 24px;
+line-height: 28px;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* icons/download */
+
+display: none;
+width: 20px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+}
+
+.buttonGo3{
+    /* button / straight / filled / large */
+
+/* Auto layout */
+display: flex;
+flex-direction: row;
+align-items: center;
+padding: 14px 28px;
+gap: 10px;
+
+position: absolute;
+width: 233px;
+height: 76px;
+left: calc(50% - 233px/2 - 0.5px);
+top: calc(50% - 76px/2 + 120.5px);
+
+background: #F41196;
+/* btn / blue / normal */
+box-shadow: 0px 10px 30px rgba(56, 29, 219, 0.2);
+
+
+/* GO */
+
+width: 175px;
+height: 48px;
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 700;
+font-size: 24px;
+line-height: 28px;
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+
+
+/* icons/download */
+
+display: none;
+width: 20px;
+height: 20px;
+
+
+/* Inside auto layout */
+flex: none;
+order: 1;
+flex-grow: 0;
+
+
+/* Group */
+
+position: absolute;
+left: 20.31%;
+right: 20.3%;
+top: 0%;
+bottom: 26.67%;
+
+
+
+/* Group */
+
+position: absolute;
+left: 20.31%;
+right: 20.3%;
+top: 0%;
+bottom: 26.67%;
+
+
+
+/* Vector */
+
+position: absolute;
+left: 20.31%;
+right: 20.3%;
+top: 0%;
+bottom: 26.67%;
+
+/* General / Light */
+background: #FFFFFF;
+
+
+/* Group */
+
+position: absolute;
+left: 10%;
+right: 10%;
+top: 86.67%;
+bottom: 0%;
+
+
+
+/* Group */
+
+position: absolute;
+left: 10%;
+right: 10%;
+top: 86.67%;
+bottom: 0%;
+
+
+
+/* Vector */
+
+position: absolute;
+left: 10%;
+right: 10%;
+top: 86.67%;
+bottom: 0%;
+
+/* General / Light */
+background: #FFFFFF;
+
+}
+
+.person{
+    /* bi:person */
+
+position: absolute;
+width: 133px;
+height: 139px;
+left: 112px;
+top: 96px;
+
+
+
+/* Vector */
+
+position: absolute;
+left: 12.5%;
+right: 12.5%;
+top: 12.66%;
+bottom: 12.34%;
+
+background: #FFFFFF;
+
+}
+
+.calendar{
+    /* ant-design:calendar-twotone */
+
+position: absolute;
+width: 125px;
+height: 135px;
+left: 112px;
+top: 97px;
+
+
+
+/* Vector */
+
+position: absolute;
+left: 18.4%;
+right: 17.54%;
+top: 25.19%;
+bottom: 61.53%;
+
+background: rgba(0, 0, 0, 0.15);
+
+
+/* Vector */
+
+position: absolute;
+left: 10.94%;
+right: 10.94%;
+top: 10.94%;
+bottom: 10.94%;
+
+background: #FFFFFF;
+/* ant-design:calendar-twotone */
+
+position: absolute;
+width: 125px;
+height: 135px;
+left: 112px;
+top: 97px;
+
+
+
+/* Vector */
+
+position: absolute;
+left: 18.4%;
+right: 17.54%;
+top: 25.19%;
+bottom: 61.53%;
+
+background: rgba(0, 0, 0, 0.15);
+
+
+/* Vector */
+
+position: absolute;
+left: 10.94%;
+right: 10.94%;
+top: 10.94%;
+bottom: 10.94%;
+
+background: #FFFFFF;
+
+}
+
+.payment{
+    /* fluent:payment-24-regular */
+
+position: absolute;
+width: 148px;
+height: 147px;
+left: 101px;
+top: 102px;
+
+
+
+/* Vector */
+
+position: absolute;
+left: 8.33%;
+right: 8.33%;
+top: 20.83%;
+bottom: 20.83%;
+
+background: #FFFFFF;
+
+}
