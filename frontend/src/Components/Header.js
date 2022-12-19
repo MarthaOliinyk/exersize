@@ -11,7 +11,7 @@ function BasicExample() {
     async function getData() {
         axios.get("http://localhost:8080/users/roles", {withCredentials: true})
             .then((data) => setRole(() => getRoles(data)))
-            .catch(console.log);
+            .catch(err => localStorage.setItem("registered", "false"));
     }
 
     function getRoles(roles) {

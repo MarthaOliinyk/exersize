@@ -37,13 +37,14 @@ def add_subscription(userid, subscription_type_id):
     return 404
 
 
-@app.route('/subscription/user/<userId>', methods=['GET'])
+@app.route('/subscriptions', methods=['GET'])
 @jwt_required()
-def get_subscriptions_by_userid(userId: int):
-    user_entity = User.query.get(userId)
+def get_subscriptions_by_userid():
+    current_user = get_jwt_identity()
+    user = User.find_by_username(current_user)
 
-    if user_entity:
-        return {'subscriptions': [subscription.return_one() for subscription in user_entity.subscriptions]}
+    if user:
+        return {'subscriptions': [subscription.return_one() for subscription in user.subscriptions]}
     else:
         return {'error': 'user not found'}, 404
 
@@ -71,8 +72,8 @@ def payment_create():
     user_id = user.id
     sub_type = SubscriptionType.query.get(data_parse["subscription_type_id"])
 
-    private_key = "sandbox_Z59LOqhjuIaAQ88XEng1n6hIWjPRgc0XozNjY7h4"
-    public_key = "sandbox_i56362335020"
+    private_key = "sandbox_QSenQtvw4T7PDwTXG8ur9gXFzCD02yZSqCpC1rsH"
+    public_key = "sandbox_i45987901491"
 
     data = {}
 
@@ -84,7 +85,7 @@ def payment_create():
     data["language"] = "uk"
     data["description"] = f"Pay for {sub_type.name} subscription."
     data["order_id"] = randint(0, 10000)
-    data['server_url'] = 'https://0e1b-178-212-111-37.eu.ngrok.io/callback/payment'
+    data['server_url'] = 'https://bbbf-46-211-172-63.eu.ngrok.io/callback/payment'
     data["customer"] = user_id
     data["product_description"] = sub_type.id
 
@@ -103,7 +104,7 @@ def payment_create():
 
 @app.route('/callback/payment', methods=['POST'])
 def payment_callback():
-    private_key = "sandbox_Z59LOqhjuIaAQ88XEng1n6hIWjPRgc0XozNjY7h4"
+    private_key = "sandbox_QSenQtvw4T7PDwTXG8ur9gXFzCD02yZSqCpC1rsH"
 
     data_raw = request.values
     signature = base64.b64encode(sha1((private_key + data_raw["data"] + private_key).encode("utf-8")).digest())

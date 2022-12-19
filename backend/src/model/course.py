@@ -22,7 +22,8 @@ class Course(db.Model):
             return {
                 'name': x.name,
                 'description': x.description,
-                'tag': x.tag
+                'tag': x.tag,
+                'sub_type': [t.return_one() for t in x.subscription_types]
             }
 
         return {'courses': [to_json(course) for course in Course.query.all()]}
