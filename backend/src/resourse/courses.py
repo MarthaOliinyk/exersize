@@ -17,13 +17,13 @@ from datetime import timedelta
 @coach_required
 def add_course():
     parser = reqparse.RequestParser()
-    parser.add_argument('name', type=str, required=True, help='This field cannot be left blank')
+    parser.add_argument('course_name', type=str, required=True, help='This field cannot be left blank')
     parser.add_argument('description', type=str, required=True, help='This field cannot be left blank')
     parser.add_argument('tag', type=str, required=True, help='This field cannot be left blank')
     parser.add_argument('sub_type', type=dict, action='append', required=True, help='This field cannot be left blank')
     data = parser.parse_args()
 
-    name = data['name']
+    name = data['course_name']
     description = data['description']
     tag = data['tag']
 

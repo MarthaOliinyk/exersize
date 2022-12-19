@@ -1,18 +1,13 @@
 import axios from "axios";
-const config={
-    headers: {"Access-Control-Allow-Origin": "*"}
-    // {withCredentials: true}
-}
-const fetchPayment=id=>{
-    axios.post('http://127.0.0.1:8080/create/payment', {
-    subscription_type_id:id
-  },{withCredentials: true},config)
-  .then(function (response) {
-    console.log(response);
-  }
-//   .catch(function (error) {
-//     console.log(error.toJSON());
-//   })
-)
+
+const fetchPayment = id => {
+    axios.post('http://localhost:8080/create/payment', {
+        subscription_type_id: id
+    }, {withCredentials: true})
+        .then(res => {
+                let url = res.data['payment_url'];
+                window.location = url;
+            }
+        )
 }
 export default fetchPayment
